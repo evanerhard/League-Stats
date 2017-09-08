@@ -1,0 +1,10 @@
+#gitignore
+[Ll]ib
+[Ss]cripts
+[Ss]hare
+pyvenv.cfg
+pip*
+
+#node files
+league/node_modules/
+league/assets/
