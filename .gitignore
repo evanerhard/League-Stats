@@ -4,6 +4,7 @@ Scripts
 share
 pyvenv.cfg
 pip*
+tcl
 
 #node files
 league/node_modules/
