@@ -6,46 +6,47 @@
 {% endblock %}
 
 
-
-
-
-
 {% block content %}
 <!-- Start Top Bar -->
-<style>
-ul {
-    list-style: none;
-    overflow: hidden;
-    background-color: #333;
-}
-
-li {
-    float: inline;
-    display: inline;
-}
-</style>
-
 <div class="topnav" id="myTopnav">
   <div class="top-bar-left">
       <ul>
         <li><a href="/">Home</a></li>
-      <!-- </ul> -->
-  <!-- </div> -->
-  <!-- <div class="top-bar-right"> -->
-  <!-- <div class="top-bar-right"> -->
-    <!-- <ul> -->
+  <div class="top-bar-right">
       {% if user.is_authenticated %}
         <li><a href="/logout/">Logout</a></li>
       {% else %}
         <li><a href="/login/">Log In</a></li>
       {% endif %}
-        <!-- <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a></li> -->
     </ul>
-  <!-- </div> -->
+  </div>
   </div>
 </div>
 <!-- End Top Bar -->
 
+<div class="large-8 columns">
+  <h1 style="text-align:center">Top 5 QBs based on Passing yards</h1>
+</div>
+<div class="large-4 columns">
+  <h2>QBs</h2>
+  <div id="five_qb_list">
+    <ul>
+      {% for qb in five_qb_list %}
+
+      <label>Player:</label>
+      <li>{{ qbs.id }} <li>
+      <div class="divider"></div>
+      <label>Yards:</label>
+      <li>{{ qbs.yds }}</li>
+      <div class="divider"></div>
+
+
+      {% endfor %}
+    </ul>
+  </div>
+
+
+</div>
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

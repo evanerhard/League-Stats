@@ -36,14 +36,17 @@ LOGIN_REDIRECT_URL="/"
 # Application definition
 
 INSTALLED_APPS = [
+    'statsapp.apps.StatsappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'statsapp',
-    'nfldb'
+    'jquery',
+    # 'statsapp',
+    'nfldb',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "statsapp/static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'league', 'static'),
     os.path.join(BASE_DIR, 'assets'),
@@ -160,3 +163,8 @@ STATICFILES_DIRS = [
 #     'jquery-ui',
 #     'bootstrap',
 # )
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
