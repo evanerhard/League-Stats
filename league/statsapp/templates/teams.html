@@ -1,0 +1,41 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="large-8 columns">
+  <h1 style="text-align:center">Team</h1>
+</div>
+<div class="large-4 columns">
+  <div id="teams_list">
+    {% if teams_list %}
+      {% for t in teams_list %}
+      <!-- {{t}} -->
+        <p>Team Id:</p>
+          <li>{{ t.pk }} <li>
+      <div class="divider"></div>
+      <p>Team City:</p>
+        <li>{{ t.fields.city }} <li>
+    <div class="divider"></div>
+        <p>Team name:</p>
+          <li>{{ t.fields.name }} <li>
+      <div class="divider"></div>
+
+        {% endfor %}
+      {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+{% endblock %}

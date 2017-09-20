@@ -11,42 +11,13 @@
 
 
 {% block content %}
-<!-- Start Top Bar -->
-<style>
-ul {
-    list-style: none;
-    overflow: hidden;
-    background-color: #333;
-}
 
-li {
-    float: inline;
-    display: inline;
-}
-</style>
 
-<div class="topnav" id="myTopnav">
-  <div class="top-bar-left">
-      <ul>
-        <li><a href="/">Home</a></li>
-      <!-- </ul> -->
-  <!-- </div> -->
-  <!-- <div class="top-bar-right"> -->
-  <!-- <div class="top-bar-right"> -->
-    <!-- <ul> -->
-      {% if user.is_authenticated %}
-        <li><a href="/logout/">Logout</a></li>
-      {% else %}
-        <li><a href="/login/">Log In</a></li>
-      {% endif %}
-        <!-- <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a></li> -->
-    </ul>
-  <!-- </div> -->
-  </div>
-</div>
-<!-- End Top Bar -->
+
+
 
 {% endblock %}
+
 
 <!-- SUPER SCRIPTS -->
 {% block scripts %}

@@ -230,8 +230,8 @@ class DjangoSession(models.Model):
 class Drive(models.Model):
     gsis = models.ForeignKey('Game', models.DO_NOTHING)
     drive_id = models.SmallIntegerField(primary_key=True)
-    start_field = models.TextField(blank=True, null=True)  # This field type is a guess.
     start_time = models.TextField()  # This field type is a guess.
+    start_field = models.TextField(blank=True, null=True)  # This field type is a guess.
     end_field = models.TextField(blank=True, null=True)  # This field type is a guess.
     end_time = models.TextField()  # This field type is a guess.
     pos_team = models.ForeignKey('Team', models.DO_NOTHING, db_column='pos_team')
@@ -298,8 +298,11 @@ class Meta(models.Model):
 
 class Play(models.Model):
     gsis = models.ForeignKey(Game, models.DO_NOTHING)
+
+    play_id = models.SmallIntegerField(primary_key=True)
+
     drive_id = models.SmallIntegerField()
-    play_id = models.SmallIntegerField()
+
     time = models.TextField()  # This field type is a guess.
     pos_team = models.ForeignKey('Team', models.DO_NOTHING, db_column='pos_team')
     yardline = models.TextField(blank=True, null=True)  # This field type is a guess.

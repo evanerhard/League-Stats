@@ -1,0 +1,74 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="large-8 columns">
+  <h1 style="text-align:center">Team</h1>
+</div>
+<div class="large-4 columns">
+  <div id="teams_list">
+    {% if teams_list %}
+      {% for t in teams_list %}
+        <p>Gsis:</p>
+          <li>{{ t.gsis }} <li>
+      <div class="divider"></div>
+        <p>Drive Id:</p>
+          <li>{{ t.drive_id }} <li>
+      <div class="divider"></div>
+        <p>Start Field:</p>
+          <li>{{ t.start_field }} <li>
+      <div class="divider"></div>
+        <p>Start Time:</p>
+          <li>{{ t.start_time }} <li>
+      <div class="divider"></div>
+        <p>End Field:</p>
+          <li>{{ t.end_field }} <li>
+      <div class="divider"></div>
+        <p>End Time:</p>
+          <li>{{ t.end_time }} <li>
+      <div class="divider"></div>
+        <p>Pos Team:</p>
+          <li>{{ t.pos_team }}</li>
+      <div class="divider"></div>
+        <p>Pos time:</p>
+          <li>{{ t.pos_time }} <li>
+      <div class="divider"></div>
+        <p>First Downs:</p>
+          <li>{{ t.first_downs }} <li>
+      <div class="divider"></div>
+        <p>Results:</p>
+          <li>{{ t.result }} <li>
+      <div class="divider"></div>
+        <p>Penalty Yards:</p>
+          <li>{{ t.penalty_yards }} <li>
+      <div class="divider"></div>
+        <p>Yards Gained:</p>
+          <li>{{ t.yards_gained }} <li>
+      <div class="divider"></div>
+        <p>Play Count:</p>
+          <li>{{ t.play_count }} <li>
+      <div class="divider"></div>
+        <p>Time Inserted:</p>
+          <li>{{ t.time_inserted }} <li>
+      <div class="divider"></div>
+        <p>Time Updated:</p>
+          <li>{{ t.time_updated }} <li>
+        {% endfor %}
+      {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="large-8 columns">
+  <h1 style="text-align:center">Drives</h1>
+</div>
+<div class="large-4 columns">
+        <p>gsis:</p>
+        <li>{{ gsis }} <li>
+
+          <div class="divider"></div>
+          <p>Drive Id:</p>
+          <li>{{ drive_id }} <li>
+
+        <div class="divider"></div>
+        <p>Start Field:</p>
+        <li>{{ start_field }} <li>
+
+        <div class="divider"></div>
+        <p>Start Time:</p>
+        <li>{{ start_time }} <li>
+
+          <div class="divider"></div>
+          <p>End Field:</p>
+          <li>{{ end_field }} <li>
+
+          <div class="divider"></div>
+          <p>End Time:</p>
+          <li>{{ end_time }} <li>
+
+          <div class="divider"></div>
+          <p>Pos Team:</p>
+          <li>{{ pos_team }}</li>
+
+          <div class="divider"></div>
+          <p>Pos time:</p>
+          <li>{{ pos_time }} <li>
+
+          <div class="divider"></div>
+          <p>First Downs:</p>
+          <li>{{ first_downs }} <li>
+
+            <div class="divider"></div>
+            <p>Results:</p>
+            <li>{{ result }} <li>
+
+              <div class="divider"></div>
+              <p>Penalty Yards:</p>
+              <li>{{ penalty_yards }} <li>
+
+                <div class="divider"></div>
+                <p>Yards Gained:</p>
+                <li>{{ yards_gained }} <li>
+
+                  <div class="divider"></div>
+                  <p>Play Count:</p>
+                  <li>{{ play_count }} <li>
+
+                    <div class="divider"></div>
+                    <p>Time Inserted:</p>
+                    <li>{{ time_inserted }} <li>
+
+                        <div class="divider"></div>
+                        <p>Time Updated:</p>
+                        <li>{{ time_updated }} <li>
+
+</div>
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+{% endblock %}

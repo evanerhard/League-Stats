@@ -1,0 +1,87 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="large-8 columns">
+  <h1 style="text-align:center">Game</h1>
+</div>
+<div class="large-4 columns">
+        <p>gsis Id:</p>
+        <li>{{ gsis_id }} <li>
+
+          <div class="divider"></div>
+          <p>Gamekey:</p>
+          <li>{{ gamekey }} <li>
+
+        <div class="divider"></div>
+        <p>Start Time:</p>
+        <li>{{ start_time }} <li>
+
+        <div class="divider"></div>
+        <p>Week:</p>
+        <li>{{ week }} <li>
+
+          <div class="divider"></div>
+          <p>Day of Week:</p>
+          <li>{{ day_of_week }} <li>
+
+          <div class="divider"></div>
+          <p>Season Year:</p>
+          <li>{{ season_year }} <li>
+
+          <div class="divider"></div>
+          <p>Seaon Type:</p>
+          <li>{{ season_type }}</li>
+
+          <div class="divider"></div>
+          <p>Finished:</p>
+          <li>{{ finished }} <li>
+
+          <div class="divider"></div>
+          <p>Home Team:</p>
+          <li>{{ home_team }} <li>
+
+            <div class="divider"></div>
+            <p>Home Score:</p>
+            <li>{{ home_score }} <li>
+
+              <div class="divider"></div>
+              <p>Home Turnovers:</p>
+              <li>{{ home_turnovers }} <li>
+
+                <div class="divider"></div>
+                <p>Away Team:</p>
+                <li>{{ away_team }} <li>
+
+                  <div class="divider"></div>
+                  <p>Away Score:</p>
+                  <li>{{ away_score }} <li>
+
+                    <div class="divider"></div>
+                    <p>Away Turnovers:</p>
+                    <li>{{ away_turnovers }} <li>
+
+                      <div class="divider"></div>
+                      <p>time_inserted:</p>
+                      <li>{{ time_inserted }} <li>
+
+                        <div class="divider"></div>
+                        <p>time_updated:</p>
+                        <li>{{ time_updated }} <li>
+
+</div>
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+{% endblock %}

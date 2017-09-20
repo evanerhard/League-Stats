@@ -9,28 +9,24 @@
 {% block content %}
 
 <div class="large-8 columns">
-  <h1 style="text-align:center">Players</h1>
+  <h1 style="text-align:center">Games</h1>
 </div>
 <div class="large-4 columns">
-  <div id="players_list">
-    {% if players_list %}
-      {% for players in players_list %}
-        <!-- <label>Player:</label> -->
-          <li>{{players}}</li>
-            <li><a href="{{ players.fields.profile_url }}">profile</a><li>
-        <!-- <label>player_id:</label> -->
-        <li><a href="/players/{{ players.pk }}"> {{ players.pk }}</a></li>
-          <!-- <div class="divider"></div> -->
+  <!-- <h2>Players</h2> -->
+  <div id="games_list">
+    {% if games_list %}
+      {% for games in games_list %}
+            <li>{{games}}</li>
           <div class="divider"></div>
-      {% endfor %}
 
+      {% endfor %}
+      <div class="divider"></div>
     {% endif %}
     <div class="divider"></div>
 
   </div>
 
 </div>
-
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

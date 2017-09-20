@@ -3,17 +3,59 @@
 
 
 {% block head %}
-<link rel="stylesheet" href="{% static "css/topnav.css" %}"
 
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{% static "css/foundation.css" %}">
 <link rel="stylesheet" href="{% static "css/app.css" %}">
+<link rel="stylesheet" href="{% static "css/topnav.css" %}"
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 {% endblock %}
 
+{% block navbar %}
+<!-- Start Top Bar -->
+<style>
+ul {
+    list-style: none;
+    overflow: hidden;
+    /*background-color: #333;*/
+}
+
+li {
+    float: inline;
+    display: inline;
+}
+</style>
+
+<div class="topnav" id="myTopnav">
+  <div class="top-bar-left">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <!-- <li><a href="/drives/">Drives</a></li> -->
+        <li><a href="/games/">Games</a></li>
+        <li><a href="/players/">Players</a></li>
+        <li><a href="/teams/">Teams</a></li>
+
+
+  <!-- </div> -->
+  <!-- <div class="top-bar-right"> -->
+  <!-- <div class="top-bar-center"> -->
+      {% if user.is_authenticated %}
+        <li><a href="/logout/">Logout</a></li>
+      {% else %}
+        <li><a href="/login/">Log In</a></li>
+      {% endif %}
+        <!-- <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a></li> -->
+    </ul>
+  <!-- </div> -->
+  </div>
+</div>
+<!-- End Top Bar -->
+
+{% endblock %}
 
 {% block scripts %}
 <script type="text/javascript" src="{% static "js/vendor/jquery.js" %}"></script>

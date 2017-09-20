@@ -1,0 +1,75 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="large-8 columns">
+  <h1 style="text-align:center">Player</h1>
+</div>
+<div class="large-4 columns">
+        <p>Player Id:</p>
+        <li>{{ player_id }} <li>
+
+          <div class="divider"></div>
+          <p>gsis Name:</p>
+          <li>{{ gsis_name }} <li>
+
+        <div class="divider"></div>
+        <p>Player Name:</p>
+        <li>{{ full_name }} <li>
+
+        <div class="divider"></div>
+        <p>Team Name:</p>
+        <li>{{ team }} <li>
+
+          <div class="divider"></div>
+          <p>Position:</p>
+          <li>{{ position }} <li>
+
+          <div class="divider"></div>
+          <p>Profile Id:</p>
+          <li>{{ profile_id }} <li>
+
+          <div class="divider"></div>
+          <p>Profile Url:</p>
+          <li>{{ profile_url }}</li>
+
+          <div class="divider"></div>
+          <p>Uniform Number:</p>
+          <li>{{ uniform_number }} <li>
+
+          <div class="divider"></div>
+          <p>Birthdate:</p>
+          <li>{{ birthdate }} <li>
+
+            <div class="divider"></div>
+            <p>College:</p>
+            <li>{{ college }} <li>
+
+              <div class="divider"></div>
+              <p>Height:</p>
+              <li>{{ height }} <li>
+
+                <div class="divider"></div>
+                <p>Weight:</p>
+                <li>{{ weight }} <li>
+
+                  <div class="divider"></div>
+                  <p>Years Pro:</p>
+                  <li>{{ years_pro }} <li>
+
+</div>
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+{% endblock %}
