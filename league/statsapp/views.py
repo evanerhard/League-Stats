@@ -88,6 +88,15 @@ def game_view(request, gsis_id):
 	}
 	return render(request, "game_view.html", context)
 
+def passing_per_playr(request, player_id):
+	if request.method == "POST":
+		return HttpREsponse('Cannot POST here.')
+	if request.method == "GET":
+		# passing = serializers.serialize('json', Player.objects.get(player_id=player_id))
+		passing_plyr = Player.objects.get(player_id=player_id)
+
+	else:
+		return HttpResponse("404")
 
 @csrf_exempt
 def play_list(request):
@@ -114,15 +123,6 @@ def play_list(request):
 # 		'description':ply.description,
 # 		'note':ply.note,
 # 		'':ply.,
-# 		'':ply.,
-# 		'':ply.,
-#		'':ply.,
-#		'':ply.,
-#		'':ply.,
-#		'':ply.,
-#		'':ply.,
-#		'':ply.,
-#
 # 	}
 # 	return render(request, "play_view.html", context)
 
@@ -132,7 +132,7 @@ def players_list(request):
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		players = serializers.serialize('json',Player.objects.exclude(profile_url__isnull=True)[:5])
+		players = serializers.serialize('json',Player.objects.exclude(profile_url__isnull=True)[:20])
 		json_players = json.loads(players)
 		# return HttpResponse( players, content_type='application/json')
 		return render(request, 'players.html', {'players_list':json_players})
@@ -182,7 +182,8 @@ def teams_list(request):
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		teams = serializers.serialize('json',Team.objects.all()[:10])
+		# teams = serializers.serialize('json',Team.objects.all()[:10])
+		teams = serializers.serialize('json',Team.objects.all())
 		json_teams = json.loads(teams)
 		# return HttpResponse(games, content_type="application/json")
 		return render(request, 'teams.html', {'teams_list':json_teams})
@@ -191,33 +192,51 @@ def team_view(request, team_id):
 	tem = Team.objects.get(team_id=team_id)
 	context = {
 		'team_id':tem.team_id,
-		'city':tem.city,
+		'team_city':tem.city,
 		'team_name':tem.name,
-
 	}
-	return render(request, "tem_view.html", context)
+	return render(request, "team_view.html", context)
 
 @csrf_exempt
 def five_qb_list(request):
 	if request.method == "POST":
-		return HttpResponse('POST Successful.')
+		return HttpResponse('Cannot POST.')
 	if request.method == "GET":
-		# players = serializers.serialize('json',Game.objects.filter(season_year=2015, season_type='Regular')[:5])
-		qbs = Player.objects.all()
-		player_list = list(qbs)
-		# qbs[Player]=[]
-		# db = nfldb.connect()
-		# q = nfldb.Query(db)
-		# q.game(season_year=2015, season_type='Regular')
-		# for g in q.sort('passing_yds').limit(5).as_aggregate():
-		# 	qbs[Player] += [{
-		# 		'id':g.player,
-		# 		'yds':g.passing_yds,
-		#
-		# 	}]
-		return JsonResponse(player_list,safe=False)
+		qbs = {}
+		qbs['passing']=[]
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		q.game(season_year=2016, season_type='Regular')
+		for g in q.sort('passing_yds').limit(5).as_aggregate():
+			qbs['passing'] += [{
+				'name':g.player.full_name,
+				'yds':g.passing_yds,
+
+			}]
+			# print(g)
+		# qbs = serializers.serialize(qbs)
+		# return JsonResponse(qbs)
 		# return HttpResponse(players, content_type="application/json")
+		return render(request, "top.html", {'pass_list':qbs['passing']})
 
 	else:
 		return HttpResponse("404")
-		# return render(request, 'top.html',context)
+
+
+
+def chart_example(request, *args, **kwargs):
+	stat_data = []
+	# year_data = {
+	#     'year1':1995,
+	# 	'year2':1996,
+	# 	'year3':1997,
+	# 	'year4':1998,
+	# 	'year5':1999,
+	# 	'year6':2000,
+	# }
+	year_data = []
+	year_data = ['word','word2','word3','word4','word5','word6']
+	stat_data = [1.234, 12, 12.34, 15, 7.8, 9.5]
+	labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+
+	return render(request, "chart_example.html", {'year_data':year_data, 'stat_data':stat_data,'labels':labels})

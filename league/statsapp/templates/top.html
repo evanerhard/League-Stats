@@ -7,46 +7,34 @@
 
 
 {% block content %}
-<!-- Start Top Bar -->
-<div class="topnav" id="myTopnav">
-  <div class="top-bar-left">
-      <ul>
-        <li><a href="/">Home</a></li>
-  <div class="top-bar-right">
-      {% if user.is_authenticated %}
-        <li><a href="/logout/">Logout</a></li>
-      {% else %}
-        <li><a href="/login/">Log In</a></li>
-      {% endif %}
-    </ul>
-  </div>
-  </div>
-</div>
-<!-- End Top Bar -->
 
 <div class="large-8 columns">
-  <h1 style="text-align:center">Top 5 QBs based on Passing yards</h1>
+  <p style="text-align:center">Top 5 Quarterbacks based on total passing yards in 2016</p>
 </div>
+
 <div class="large-4 columns">
-  <h2>QBs</h2>
+  <h4 style="text-align:center">Quarterbacks</h4>
+<table style="width:100%">
   <div id="five_qb_list">
-    <ul>
-      {% for qb in five_qb_list %}
 
-      <label>Player:</label>
-      <li>{{ qb.id }} <li>
-      <div class="divider"></div>
-      <label>Yards:</label>
-      <li>{{ qb.yds }}</li>
-      <div class="divider"></div>
+      {% if pass_list %}
+        {% for qbs in pass_list %}
+        <tr>
+          <th><em> Player: </em></th>
+          <td>     {{ qbs.name }}</td>
+        </tr>
+        <tr>
+          <th><em>Yards:</em></th>
+          <td>{{ qbs.yds }}</td>
+        </tr>
+        {% endfor %}
 
+      {% endif %}
 
-      {% endfor %}
-    </ul>
   </div>
-
-
+</table>
 </div>
+
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

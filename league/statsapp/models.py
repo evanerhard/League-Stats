@@ -9,7 +9,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible
 
 class AggPlay(models.Model):
     gsis = models.ForeignKey('Game', models.DO_NOTHING)
@@ -440,7 +440,7 @@ class PlayPlayer(models.Model):
         db_table = 'play_player'
         unique_together = (('gsis', 'drive_id', 'play_id', 'player'),)
 
-
+@python_2_unicode_compatible
 class Player(models.Model):
     player_id = models.CharField(primary_key=True, max_length=10)
     gsis_name = models.CharField(max_length=75, blank=True, null=True)
@@ -463,7 +463,13 @@ class Player(models.Model):
         managed = False
         db_table = 'player'
 
+    def __str__(self):
+        if self.full_name == None:
+            return str(self.gsis_name)
+        else:
+            return str(self.full_name)
 
+@python_2_unicode_compatible
 class Team(models.Model):
     team_id = models.CharField(primary_key=True, max_length=3)
     city = models.CharField(max_length=50)
@@ -472,3 +478,6 @@ class Team(models.Model):
     class Meta:
         managed = False
         db_table = 'team'
+
+    def __str__(self):
+        return str(self.name)

@@ -9,12 +9,15 @@
 {% block content %}
 
 <div class="large-8 columns">
-  <h1 style="text-align:center">Team</h1>
+  <h1 style="text-align:center">Drives</h1>
 </div>
 <div class="large-4 columns">
   <div id="teams_list">
-    {% if teams_list %}
-      {% for t in teams_list %}
+    {% if drives_list %}
+      {% for t in drives_list %}
+      <p>Primary Key:</p>
+        <li><a href="/drives/{{t.pk}}">{{ t.pk }} </a><li>
+    <div class="divider"></div>
         <p>Gsis:</p>
           <li>{{ t.gsis }} <li>
       <div class="divider"></div>

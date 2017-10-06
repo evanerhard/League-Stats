@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^teams/$', views.teams_list, name='teams_list'),
     url(r'^teams/(?P<team_id>[a-zA-z--9]+)$', views.team_view, name='teams'),
 
-    url(r'top', views.five_qb_list, name='top'),
+    url(r'^top/$', views.five_qb_list, name='top'),
+
+    url(r'^chart_example/$', views.chart_example, name='chart_example'),
 ]

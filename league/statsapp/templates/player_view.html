@@ -9,60 +9,63 @@
 {% block content %}
 
 <div class="large-8 columns">
-  <h1 style="text-align:center">Player</h1>
+  <h1 style="text-align:center">{{full_name}}</h1>
 </div>
 <div class="large-4 columns">
-        <p>Player Id:</p>
-        <li>{{ player_id }} <li>
-
-          <div class="divider"></div>
-          <p>gsis Name:</p>
-          <li>{{ gsis_name }} <li>
-
-        <div class="divider"></div>
-        <p>Player Name:</p>
-        <li>{{ full_name }} <li>
-
-        <div class="divider"></div>
-        <p>Team Name:</p>
-        <li>{{ team }} <li>
-
-          <div class="divider"></div>
-          <p>Position:</p>
-          <li>{{ position }} <li>
-
-          <div class="divider"></div>
-          <p>Profile Id:</p>
-          <li>{{ profile_id }} <li>
-
-          <div class="divider"></div>
-          <p>Profile Url:</p>
-          <li>{{ profile_url }}</li>
-
-          <div class="divider"></div>
-          <p>Uniform Number:</p>
-          <li>{{ uniform_number }} <li>
-
-          <div class="divider"></div>
-          <p>Birthdate:</p>
-          <li>{{ birthdate }} <li>
-
-            <div class="divider"></div>
-            <p>College:</p>
-            <li>{{ college }} <li>
-
-              <div class="divider"></div>
-              <p>Height:</p>
-              <li>{{ height }} <li>
-
-                <div class="divider"></div>
-                <p>Weight:</p>
-                <li>{{ weight }} <li>
-
-                  <div class="divider"></div>
-                  <p>Years Pro:</p>
-                  <li>{{ years_pro }} <li>
-
+  <table style="width:100%">
+    <tr>
+        <th>Player Id:</th>
+        <td>{{ player_id }} </td>
+    </tr>
+    <tr>
+        <th>gsis Name:</th>
+        <td>{{ gsis_name }} </td>
+    </tr>
+    <tr>
+        <th>Player Name:</th>
+        <td>{{ full_name }} </td>
+    </tr>
+    <tr>
+        <th>Team Name:</th>
+        <td>{{ team }} </td>
+    </tr>
+    <tr>
+          <th>Position:</th>
+          <td>{{ position }} </td>
+    </tr>
+    <tr>
+          <th>Profile Id:</th>
+          <td>{{ profile_id }} </td>
+    </tr>
+    <tr>
+          <th>Profile Url:</th>
+          <td>{{ profile_url }}</td>
+    </tr>
+    <tr>
+          <th>Uniform Number:</th>
+          <td>{{ uniform_number }} </td>
+    </tr>
+    <tr>
+          <th>Birthdate:</th>
+          <td>{{ birthdate }} </td>
+    </tr>
+    <tr>
+          <th>College:</th>
+          <td>{{ college }} </td>
+    </tr>
+    <tr>
+          <th>Height:</th>
+          <td>{{ height }} </td>
+    </tr>
+    <tr>
+          <th>Weight:</th>
+          <td>{{ weight }} </td>
+    </tr>
+    <tr>
+          <th>Years Pro:</th>
+          <td>{{ years_pro }} </td>
+    </tr>
+</table>
 </div>
 {% endblock %}
 
