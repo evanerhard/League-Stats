@@ -469,6 +469,18 @@ class Player(models.Model):
         else:
             return str(self.full_name)
 
+    def __unicode__(self):
+        if self.full_name == None:
+            return str(self.gsis_name)
+        else:
+            return str(self.full_name)
+
+    def get_team(self):
+        if self.team == None:
+            return 'No Team.'
+        else:
+            return str(self.team)
+
 @python_2_unicode_compatible
 class Team(models.Model):
     team_id = models.CharField(primary_key=True, max_length=3)
@@ -480,4 +492,7 @@ class Team(models.Model):
         db_table = 'team'
 
     def __str__(self):
+        return str(self.name)
+
+    def __unicode__(self):
         return str(self.name)

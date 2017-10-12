@@ -11,6 +11,8 @@ urlpatterns = [
 
     url(r'^players/$', views.players_list, name='players_list'),
     url(r'^players/(?P<player_id>[a-zA-Z--9]+)$', views.player_view, name='players'),
+    url(r'^passing/(?P<player_id>[a-zA-Z--9]+)$', views.passing_yds_player),
+
 
     url(r'^games/$', views.games_list, name='games_list'),
     url(r'^games/(?P<gsis_id>[a-zA-z--9]+)$', views.game_view, name='games'),

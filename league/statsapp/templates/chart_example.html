@@ -28,7 +28,8 @@
 <script>
 var endpoint = '/chart_example/'
 var defaultData = []
-var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+// var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+var labels = [{% for y in year_data %} "{{ y }}", {% endfor %}]
 $.ajax({
   method:"GET",
   url:endpoint,

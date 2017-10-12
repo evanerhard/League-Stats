@@ -33,6 +33,8 @@
 
   </div>
 </table>
+<canvas id="chart_ex" width="1200" height="400"></canvas>
+
 </div>
 
 {% endblock %}
@@ -40,7 +42,65 @@
 <!-- SUPER SCRIPTS -->
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script src="https://unpkg.com/react@15/dist/react.js"></script>
 <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 
+<script>
+var endpoint = '/top/'
+var defaultData = []
+var labels = [{% for y in pass_list %} "{{ y.name }}", {% endfor %}]
+$.ajax({
+  method:"GET",
+  url:endpoint,
+  success: function(data){
+    labels = data.labels
+    defaultData = data.default
+    console.log(data)
+  },
+  error: function(error_data){
+    console.log("error")
+    console.log(error_data)
+  }
+
+})
+
+var ctx = document.getElementById("chart_ex").getContext('2d');
+var chart_ex = new Chart(ctx, {
+  type: 'bar',
+  data:{
+    labels: labels,
+    datasets: [{
+      label:'# of Passing Yards',
+      data: [{% for y in pass_list %} "{{ y.yds }}", {% endfor %}],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)'
+          ],
+          borderWidth: 1
+      }]
+  },
+  options: {
+  scales: {
+  yAxes: [{
+    ticks: {
+      beginAtZero:true
+        }
+    }]
+  }
+  }
+});
+</script>
 {% endblock %}

@@ -222,21 +222,60 @@ def five_qb_list(request):
 	else:
 		return HttpResponse("404")
 
+def passing_yds_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+
+		q = nfldb.Query(db)
+		q.game(season_year=seas_year, season_type='Regular', week=1, team='NE')
+		drives = q.drive(pos_team='NE').sort(('start_time', 'asc')).as_drives()
+
+		tpl = 'On drive {drive_num}, Player went {cmp}/{att} for {yds} yard(s) ' \
+		      'with {tds} TD(s), {int} INT(s) and was sacked {sack} time(s).'
+
+		for i, d in enumerate(drives):
+		    q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
+		    q.player(full_name='Tom Brady')
+		    results = q.aggregate(passing_yds__ge=30).as_aggregate()
+		    # print "The loop ran."
+		    if len(results) == 0:
+		        continue
+
+		    tfb = results[0]
+		    msg = tpl.format(drive_num=i+1, cmp=tfb.passing_cmp, att=tfb.passing_att,
+		                     yds=tfb.passing_yds, tds=tfb.passing_tds,
+		                     int=tfb.passing_int, sack=tfb.passing_sk)
+		    print msg
+
+		print team
+		data = {
+			'player':player,
+			'name':name,
+			'team':team
+		}
+		return render(request, "player_passing.html", {'data':data})
 
 
 def chart_example(request, *args, **kwargs):
 	stat_data = []
-	# year_data = {
-	#     'year1':1995,
-	# 	'year2':1996,
-	# 	'year3':1997,
-	# 	'year4':1998,
-	# 	'year5':1999,
-	# 	'year6':2000,
-	# }
+
 	year_data = []
-	year_data = ['word','word2','word3','word4','word5','word6']
+	year_data = ['2000','2001','2002','2003','2004','2005']
 	stat_data = [1.234, 12, 12.34, 15, 7.8, 9.5]
 	labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 
-	return render(request, "chart_example.html", {'year_data':year_data, 'stat_data':stat_data,'labels':labels})
+	data = {
+		'labels':labels,
+		'year_data':year_data,
+		'stat_data':stat_data
+	}
+
+	return render(request, "chart_example.html", data)
