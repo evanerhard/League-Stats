@@ -13,10 +13,10 @@
 </div>
 
 <div class="large-4 columns">
-  <h4 style="text-align:center">Quarterbacks</h4>
+  <!-- <h4 style="text-align:center">Quarterbacks</h4> -->
+  <canvas id="chart_ex" width="1200" height="400"></canvas>                     
 <table style="width:100%">
   <div id="five_qb_list">
-
       {% if pass_list %}
         {% for qbs in pass_list %}
         <tr>
@@ -33,7 +33,7 @@
 
   </div>
 </table>
-<canvas id="chart_ex" width="1200" height="400"></canvas>
+
 
 </div>
 
@@ -67,27 +67,27 @@ $.ajax({
 
 var ctx = document.getElementById("chart_ex").getContext('2d');
 var chart_ex = new Chart(ctx, {
-  type: 'bar',
+  type: 'line',
   data:{
     labels: labels,
     datasets: [{
-      label:'# of Passing Yards',
+      label:'Passing Yards',
       data: [{% for y in pass_list %} "{{ y.yds }}", {% endfor %}],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
               'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
               'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)'
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 99, 132, 0.2)'
           ],
           borderColor: [
               'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
               'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
               'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)'
+              'rgba(255,99,132,1)',
+              'rgba(255,99,132,1)',
+              'rgba(255,99,132,1)'
           ],
           borderWidth: 1
       }]
@@ -96,7 +96,7 @@ var chart_ex = new Chart(ctx, {
   scales: {
   yAxes: [{
     ticks: {
-      beginAtZero:true
+      beginAtZero:false
         }
     }]
   }

@@ -11,12 +11,12 @@ from .forms import *
 
 import json
 import nfldb
+import time
 
 def index(request):
 	# return HttpResponse('Hello World.')
 	context = {
 		'title':'Home',
-
 	}
 	if request.method == "POST":
 		return HttpResponse('Cannot POST here.')
@@ -109,30 +109,13 @@ def play_list(request):
 		# return HttpResponse( players, content_type='application/json')
 		return render(request, 'plays.html', {'plays_list':json_plays})
 
-# def play_view(request, play_id):
-# 	ply = Play.objects.get(play_id=play_id)
-# 	context = {
-# 		'gsis':ply.gsis,
-# 		'play_id':ply.play_id,
-# 		'drive_id':ply.drive_id,
-# 		'time':ply.time,
-# 		'pos_team':ply.pos_team,
-# 		'yardline':ply.yardline,
-# 		'down':ply.down,
-# 		'yards_to_go':ply.yards_to_go,
-# 		'description':ply.description,
-# 		'note':ply.note,
-# 		'':ply.,
-# 	}
-# 	return render(request, "play_view.html", context)
-
 @csrf_exempt
 def players_list(request):
 
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		players = serializers.serialize('json',Player.objects.exclude(profile_url__isnull=True)[:20])
+		players = serializers.serialize('json',Player.objects.exclude(years_pro__isnull=True)[:50])
 		json_players = json.loads(players)
 		# return HttpResponse( players, content_type='application/json')
 		return render(request, 'players.html', {'players_list':json_players})
@@ -153,9 +136,13 @@ def player_view(request, player_id):
 		'height':plyr.height,
 		'weight':plyr.weight,
 		'years_pro':plyr.years_pro,
-
 	}
 	return render(request, "player_view.html", context)
+	def if_qb(self):
+		if self.position == "QB":
+			return True
+		else:
+			return False
 
 def register(request):
 	if request.method == "POST":
@@ -176,6 +163,16 @@ def register(request):
 		'form':form
 	}
 	return render(request, 'register.html', context)
+
+@csrf_exempt
+def rookies_list(request):
+	if request.method == "POST":
+		return HttpResponse('POST Successful.')
+	if request.method == "GET":
+		players = serializers.serialize('json',Player.objects.exclude(profile_url__isnull=True,years_pro=0,  full_name=None)[:50])
+		json_players = json.loads(players)
+		# return HttpResponse( players, content_type='application/json')
+		return render(request, 'players.html', {'players_list':json_players})
 
 @csrf_exempt
 def teams_list(request):
@@ -233,49 +230,126 @@ def passing_yds_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		position = player.get_position()
+		pass_yds = 0
+		weeks = []
+		passydperweek = {}
 
-		q = nfldb.Query(db)
-		q.game(season_year=seas_year, season_type='Regular', week=1, team='NE')
-		drives = q.drive(pos_team='NE').sort(('start_time', 'asc')).as_drives()
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+		drives = q.drive(pos_team=team).sort(('start_time', 'asc')).as_drives()
+		# tpl = 'On drive {drive_num}, {name} went {cmp}/{att} for {yds} yard(s) ' \
+		#       'with {tds} TD(s), {int} INT(s) and was sacked {sack} time(s).'
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+				#weeks.append(i)
 
-		tpl = 'On drive {drive_num}, Player went {cmp}/{att} for {yds} yard(s) ' \
-		      'with {tds} TD(s), {int} INT(s) and was sacked {sack} time(s).'
+		for w in weeks:
+			passydperweek[w] = []
+		weeks.sort(key=int)
+		for d in drives:
+		    pass_yds = 0
+		    for w in weeks:
+			    q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
+			    q.player(full_name=name)
+			    q.game(week=w)
+			    results = q.aggregate(passing_yds__ge=0).as_aggregate()
+			    if len(results) == 0:
+			        continue
+			    tfb = results[0]
+			    pass_yds += tfb.passing_yds
+		    # msg = tpl.format(drive_num=i+1,name=name, cmp=tfb.passing_cmp, att=tfb.passing_att,
+		    #                  yds=tfb.passing_yds, tds=tfb.passing_tds,
+		    #                  int=tfb.passing_int, sack=tfb.passing_sk)
+		    for w in weeks:
+		    	 if w == d.game.week:
+	        		passydperweek[w] += [pass_yds]
+	    		#print "it worked."
+		    #print d.game.week
+		    x = pass_yds
 
-		for i, d in enumerate(drives):
-		    q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
-		    q.player(full_name='Tom Brady')
-		    results = q.aggregate(passing_yds__ge=30).as_aggregate()
-		    # print "The loop ran."
-		    if len(results) == 0:
-		        continue
+		for w in weeks:
+			passydperweek[w] = sum(passydperweek[w])
 
-		    tfb = results[0]
-		    msg = tpl.format(drive_num=i+1, cmp=tfb.passing_cmp, att=tfb.passing_att,
-		                     yds=tfb.passing_yds, tds=tfb.passing_tds,
-		                     int=tfb.passing_int, sack=tfb.passing_sk)
-		    print msg
-
-		print team
 		data = {
 			'player':player,
+			'player_id':player_id,
 			'name':name,
-			'team':team
+			'team':team,
+			'position':position,
+			'passing_yds':pass_yds,
+			'weeks':weeks,
+			'passing_per_week':passydperweek,
 		}
 		return render(request, "player_passing.html", {'data':data})
 
+def rushing_yds_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+		position = player.get_position()
+		rush_yds = 0
+		weeks = []
+		rushydperweek = {}
+
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+		drives = q.drive(pos_team=team).sort(('start_time', 'asc')).as_drives()
+
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+
+		for w in weeks:
+			rushydperweek[w] = []
+		weeks.sort(key=int)
+		for d in drives:
+		    pass_yds = 0
+		    for w in weeks:
+			    q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
+			    q.player(full_name=name)
+			    q.game(week=w)
+			    results = q.aggregate(rushing_yds__ge=0).as_aggregate()
+			    if len(results) == 0:
+			        continue
+			    tfb = results[0]
+			    rush_yds += tfb.rushing_yds
+
+		    for w in weeks:
+		    	 if w == d.game.week:
+	        		rushydperweek[w] += [rush_yds]
+
+		for w in weeks:
+			rushydperweek[w] = sum(rushydperweek[w])
+
+		data = {
+			'player':player,
+			'player_id':player_id,
+			'name':name,
+			'team':team,
+			'position':position,
+			'passing_yds':pass_yds,
+			'weeks':weeks,
+			'rushing_per_week':rushydperweek,
+		}
+		return render(request, "player_rushing.html", {'data':data})
 
 def chart_example(request, *args, **kwargs):
 	stat_data = []
-
 	year_data = []
+
 	year_data = ['2000','2001','2002','2003','2004','2005']
 	stat_data = [1.234, 12, 12.34, 15, 7.8, 9.5]
-	labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 
 	data = {
-		'labels':labels,
 		'year_data':year_data,
-		'stat_data':stat_data
+		'stat_data':stat_data,
 	}
 
 	return render(request, "chart_example.html", data)

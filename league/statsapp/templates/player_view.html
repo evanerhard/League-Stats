@@ -39,7 +39,7 @@
     </tr>
     <tr>
           <th>Profile Url:</th>
-          <td>{{ profile_url }}</td>
+          <td><a href="{{ profile_url }}">NFLprofile</a></td>
     </tr>
     <tr>
           <th>Uniform Number:</th>
@@ -65,6 +65,16 @@
           <th>Years Pro:</th>
           <td>{{ years_pro }} </td>
     </tr>
+    {% if position == 'QB' %}
+    <tr>
+          <th>Passing Yards Per Game:</th>
+          <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+    </tr>
+    <tr>
+        <th>Rushing Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
+    </tr>
+    {% endif %}
 </table>
 </div>
 {% endblock %}

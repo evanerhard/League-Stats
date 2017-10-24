@@ -282,6 +282,8 @@ class Game(models.Model):
         managed = False
         db_table = 'game'
 
+    def get_week(self):
+        return self.week
 
 class Meta(models.Model):
     # id = models.CharField(primary_key=True, max_length=10)
@@ -298,11 +300,8 @@ class Meta(models.Model):
 
 class Play(models.Model):
     gsis = models.ForeignKey(Game, models.DO_NOTHING)
-
     play_id = models.SmallIntegerField(primary_key=True)
-
     drive_id = models.SmallIntegerField()
-
     time = models.TextField()  # This field type is a guess.
     pos_team = models.ForeignKey('Team', models.DO_NOTHING, db_column='pos_team')
     yardline = models.TextField(blank=True, null=True)  # This field type is a guess.
@@ -475,11 +474,16 @@ class Player(models.Model):
         else:
             return str(self.full_name)
 
+    def get_position(self):
+        return self.position
+
     def get_team(self):
         if self.team == None:
             return 'No Team.'
         else:
             return str(self.team)
+    def get_years_pro(self):
+        return self.years_pro
 
 @python_2_unicode_compatible
 class Team(models.Model):
@@ -492,7 +496,14 @@ class Team(models.Model):
         db_table = 'team'
 
     def __str__(self):
-        return str(self.name)
+        return str(self.team_id)
 
     def __unicode__(self):
-        return str(self.name)
+        return str(self.team_id)
+
+    def get_team_id(self):
+        return self.team_id
+    def get_team_city(self):
+        return self.city
+    def get_team_name(self):
+        return self.name
