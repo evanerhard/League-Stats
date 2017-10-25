@@ -17,9 +17,8 @@
   <p>Player Name: {{ data.name }}</p>
   <p>Team Id: {{data.team }}</p>
   <p>Position: {{ data.position }}
-  <p>Weeks: {{ data.weeks }}</p>
   {% for key, value in data.rushing_per_week.items %}
-      <p>Passing Yards per week: {{ value }}</p>
+      <p>Passing Yards per week {{key}}: {{ value }}</p>
   {% endfor %}
 
 
@@ -35,7 +34,6 @@
 <script>
 var endpoint = '/players/{{data.player_id}}/rushing_yds_player'
 var defaultData = []
-// var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
 $.ajax({
   method:"GET",
@@ -80,13 +78,13 @@ var chart_ex = new Chart(ctx, {
       }]
   },
   options: {
-  scales: {
-  yAxes: [{
-    ticks: {
-      beginAtZero:true
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true
         }
-    }]
-  }
+      }]
+    }
   }
 });
 </script>

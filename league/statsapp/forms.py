@@ -40,3 +40,13 @@ class LoginForm(AuthenticationForm):
         max_length=32,
         widget=forms.PasswordInput()
     )
+
+class SearchForm(forms.Form):
+    position = forms.CharField(label= "Position",
+        required=True,
+        max_length=5
+        )
+    full_name = forms.CharField(label = "Full Name",
+        required=False,
+        max_length=255
+        )

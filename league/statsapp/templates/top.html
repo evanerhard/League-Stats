@@ -14,16 +14,14 @@
 
 <div class="large-4 columns">
   <!-- <h4 style="text-align:center">Quarterbacks</h4> -->
-  <canvas id="chart_ex" width="1200" height="400"></canvas>                     
+  <canvas id="chart_ex" width="1200" height="400"></canvas>
 <table style="width:100%">
   <div id="five_qb_list">
       {% if pass_list %}
         {% for qbs in pass_list %}
         <tr>
           <th><em> Player: </em></th>
-          <td>     {{ qbs.name }}</td>
-        </tr>
-        <tr>
+          <td><a href="{% url 'players' player_id=qbs.id %}">{{ qbs.name }}</a></td>
           <th><em>Yards:</em></th>
           <td>{{ qbs.yds }}</td>
         </tr>

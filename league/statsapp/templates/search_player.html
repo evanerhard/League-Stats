@@ -1,0 +1,40 @@
+{% extends "default.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+{% if players %}
+  {% for p in players %}
+    <p><a href="/players/{{p.player_id}}"> {{p}} </a></p>
+  {% endfor %}
+
+{% else %}
+  <form class="form-horizontal" method="post" action="{% url 'search_player' %}">
+    {% csrf_token %}
+    <div class="row column form">
+      <h4 class="text-center">Search for a Player</h4>
+      {{ form.errors }}
+      <label> {{ form.position.label_tag }}</label>
+      {{ form.position }}
+
+      <label> {{ form.full_name.label_tag }}</label>
+        {{ form.full_name }}
+
+      <input type="submit" name="q" class="button expanded" value="Search" />
+    </div>
+  </form>
+
+
+{% endif %}
+{% endblock %}
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ block.super }}
+
+
+{% endblock %}

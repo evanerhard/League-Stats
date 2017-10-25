@@ -68,8 +68,14 @@
     {% if position == 'QB' %}
     <tr>
           <th>Passing Yards Per Game:</th>
-          <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+          <td><a href="/players/{{ player_id }}/2017/passing_yds_player/">Graph</a></td>
     </tr>
+    <tr>
+        <th>Rushing Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'RB' %}
     <tr>
         <th>Rushing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>

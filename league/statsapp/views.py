@@ -1,10 +1,11 @@
-from django.shortcuts import render,HttpResponse, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render,HttpResponse, HttpResponseRedirect, get_object_or_404, render_to_response
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.views import generic
 
 from .models import *
 from .forms import *
@@ -60,7 +61,7 @@ def games_list(request):
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		games = serializers.serialize('json',Game.objects.all()[:10])
+		games = serializers.serialize('json',Game.objects.filter(season_year=2017))
 		json_games = json.loads(games)
 		# return HttpResponse(games, content_type="application/json")
 		return render(request, 'games.html', {'games_list':json_games})
@@ -203,9 +204,10 @@ def five_qb_list(request):
 		qbs['passing']=[]
 		db = nfldb.connect()
 		q = nfldb.Query(db)
-		q.game(season_year=2016, season_type='Regular')
+		q.game(season_year=2017, season_type='Regular')
 		for g in q.sort('passing_yds').limit(5).as_aggregate():
 			qbs['passing'] += [{
+				'id':g.player.player_id,
 				'name':g.player.full_name,
 				'yds':g.passing_yds,
 
@@ -219,23 +221,21 @@ def five_qb_list(request):
 	else:
 		return HttpResponse("404")
 
-def passing_yds_player(request, player_id):
+def passing_yds_player(request, player_id,season_year):
 	if request.method == "POST":
 		return HttpResponse('Cannot POST.')
 	if request.method == "GET":
 		db = nfldb.connect()
 		q = nfldb.Query(db)
 		data = {}
-		seas_year = '2017'
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
 		position = player.get_position()
-		pass_yds = 0
 		weeks = []
 		passydperweek = {}
 
-		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+		games = q.game(season_year=season_year, season_type='Regular', team=team).as_games()
 		drives = q.drive(pos_team=team).sort(('start_time', 'asc')).as_drives()
 		# tpl = 'On drive {drive_num}, {name} went {cmp}/{att} for {yds} yard(s) ' \
 		#       'with {tds} TD(s), {int} INT(s) and was sacked {sack} time(s).'
@@ -277,7 +277,6 @@ def passing_yds_player(request, player_id):
 			'name':name,
 			'team':team,
 			'position':position,
-			'passing_yds':pass_yds,
 			'weeks':weeks,
 			'passing_per_week':passydperweek,
 		}
@@ -295,7 +294,6 @@ def rushing_yds_player(request, player_id):
 		name = str(player)
 		team = player.get_team()
 		position = player.get_position()
-		rush_yds = 0
 		weeks = []
 		rushydperweek = {}
 
@@ -310,7 +308,7 @@ def rushing_yds_player(request, player_id):
 			rushydperweek[w] = []
 		weeks.sort(key=int)
 		for d in drives:
-		    pass_yds = 0
+		    rush_yds = 0
 		    for w in weeks:
 			    q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
 			    q.player(full_name=name)
@@ -334,11 +332,31 @@ def rushing_yds_player(request, player_id):
 			'name':name,
 			'team':team,
 			'position':position,
-			'passing_yds':pass_yds,
 			'weeks':weeks,
 			'rushing_per_week':rushydperweek,
 		}
 		return render(request, "player_rushing.html", {'data':data})
+
+def search_player(request):
+	if request.method == 'POST':
+		form = SearchForm(request.POST)
+		if form.is_valid():
+			s_position = form.cleaned_data['position']
+			s_name = form.cleaned_data['full_name']
+			players = Player.objects.filter(full_name__contains=s_name,position=s_position)
+
+			return render(request, "search_player.html", {'form':form,'players':players})
+
+	else:
+		form = SearchForm()
+	return render(request, "search_player.html", {'form':form})
+
+
+class SearchResults(generic.ListView):
+	template_name = 'results.html'
+
+	def get_queryset(self):
+		return Player.objects.all()[:50]
 
 def chart_example(request, *args, **kwargs):
 	stat_data = []

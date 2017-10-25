@@ -16,8 +16,9 @@
   <div id="games_list">
     {% if games_list %}
       {% for games in games_list %}
-            <li>{{games}}</li>
+            <!-- <li>{{games}}</li> -->
           <div class="divider"></div>
+            <li><a href="/games/{{games.pk}}">Game: {{games.fields.away_team}} vs. {{games.fields.home_team}} on {{games.fields.week}}/{{games.fields.season_year}}</a></li>
 
       {% endfor %}
       <div class="divider"></div>

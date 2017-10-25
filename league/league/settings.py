@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'jquery',
     'nfldb',
     'django_extensions',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [

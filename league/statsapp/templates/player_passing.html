@@ -16,10 +16,9 @@
   <canvas id="chart_ex" width="1200" height="400"></canvas>
   <p>Player Name: {{ data.name }}</p>
   <p>Team Id: {{data.team }}</p>
-  <p>Position: {{ data.position }}
-  <p>Weeks: {{ data.weeks }}</p>
+  <p>Position: {{ data.position }}</p>
   {% for key, value in data.passing_per_week.items %}
-      <p>Passing Yards per week: {{ value }}</p>
+      <p>Passing Yards per week {{key}}: {{ value }}</p>
   {% endfor %}
 
 
@@ -33,7 +32,7 @@
 <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
-var endpoint = '/players/{{data.player_id}}/passing_yds_player'
+var endpoint = '/players/{{data.player_id}}/2017/passing_yds_player'
 var defaultData = []
 // var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
@@ -80,13 +79,13 @@ var chart_ex = new Chart(ctx, {
       }]
   },
   options: {
-  scales: {
-  yAxes: [{
-    ticks: {
-      beginAtZero:true
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true
         }
-    }]
-  }
+      }]
+    }
   }
 });
 </script>

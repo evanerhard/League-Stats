@@ -1,0 +1,19 @@
+{% extends 'default.html' %}
+
+{% block content %}
+
+  <ul>
+    {% if players %}
+      {% for p in players %}
+        <p><a href="/players/{{p.player_id}}"> {{p}} </a></p>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+{% endblock %}
+
+
+<!-- SUPER SCRIPTS -->
+{% block scripts %}
+{{ super }}
+{% endblock %}

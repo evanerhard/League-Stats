@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -462,6 +463,9 @@ class Player(models.Model):
         managed = False
         db_table = 'player'
 
+    def get_absolute_url(self):
+        return reverse('players',kwargs={'pk':self.player_id})
+
     def __str__(self):
         if self.full_name == None:
             return str(self.gsis_name)
@@ -507,3 +511,6 @@ class Team(models.Model):
         return self.city
     def get_team_name(self):
         return self.name
+
+# @python_2_unicode_compatible
+# class
