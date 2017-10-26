@@ -9,7 +9,7 @@
 {% block content %}
 
 <div class="large-8 columns">
-  <p style="text-align:center">Top 5 Quarterbacks based on total passing yards in 2016</p>
+  <p style="text-align:center">Top 5 Quarterbacks based on total passing yards in 2017</p>
 </div>
 
 <div class="large-4 columns">
@@ -65,7 +65,7 @@ $.ajax({
 
 var ctx = document.getElementById("chart_ex").getContext('2d');
 var chart_ex = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data:{
     labels: labels,
     datasets: [{

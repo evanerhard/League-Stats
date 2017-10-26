@@ -337,13 +337,24 @@ def rushing_yds_player(request, player_id):
 		}
 		return render(request, "player_rushing.html", {'data':data})
 
+O_Positions = ['QB', 'RB', 'FB', 'LT', 'LG', 'C', 'RG', 'RT', 'TE','WR' ]
+D_Positions = ['DE', 'DT', 'OLB', 'ILB', 'CB', 'SS', 'FS']
+S_Positions = ['K', 'P', 'KR', 'PR']
 def search_player(request):
 	if request.method == 'POST':
 		form = SearchForm(request.POST)
 		if form.is_valid():
 			s_position = form.cleaned_data['position']
 			s_name = form.cleaned_data['full_name']
-			players = Player.objects.filter(full_name__contains=s_name,position=s_position)
+			s_team = form.cleaned_data['team']
+			if s_team == 'None' and s_position == 'None':
+				players = Player.objects.filter(full_name__contains=s_name)
+			elif s_name == '' and s_position == 'None':
+				players = Player.objects.filter(team=s_team)
+			elif s_team == 'None' and s_name == '':
+				players = Player.objects.filter(position=s_position)
+			else:
+				players = Player.objects.filter(team=s_team,position=s_position,full_name__contains=s_name)
 
 			return render(request, "search_player.html", {'form':form,'players':players})
 

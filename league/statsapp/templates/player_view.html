@@ -65,6 +65,7 @@
           <th>Years Pro:</th>
           <td>{{ years_pro }} </td>
     </tr>
+<!-- Offensive Player Graphs -->
     {% if position == 'QB' %}
     <tr>
           <th>Passing Yards Per Game:</th>
@@ -81,6 +82,80 @@
         <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
     </tr>
     {% endif %}
+    {% if position == 'FB' %}
+    <tr>
+        <th>Rushing Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'TE' %}
+    <tr>
+        <th>Passing Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'WR' %}
+    <tr>
+        <th>Passing Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+
+<!-- Defensive Player Graphs -->
+    {% if position == 'DE' %}
+    {% if position == 'DT' %}
+    {% if position == 'OLB' %}
+    {% if position == 'ILB' %}
+    <tr>
+        <th>Sacks Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td> -->
+    </tr>
+
+    <tr>
+        <th>Tackles Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td> -->
+    </tr>
+
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+
+    {% if position == 'SS' or position == 'FS' or position == 'CB' %}
+    <tr>
+        <th>Tackles Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td> -->
+    </tr>
+
+    <tr>
+        <th>Picks Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/picks_player/">Graph</a></td> -->
+    </tr>
+    {% endif %}
+
+<!-- Special Team Graphs -->
+
+    {% if position == 'K' %}
+    <tr>
+        <th>Field Goals Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/fgs_player/">Graph</a></td> -->
+    </tr>
+    {% endif %}
+
+    {% if position == 'P' %}
+    <tr>
+        <th>Punt Distance Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/punts_player/">Graph</a></td> -->
+    </tr>
+    {% endif %}
+
+    {% if position == 'PR' or position == 'KR' %}
+    <tr>
+        <th>Touchdowns Per Game:</th>
+        <!-- <td><a href="/players/{{ player_id }}/tds_player/">Graph</a></td> -->
+    </tr>
+    {% endif %}
+
 </table>
 </div>
 {% endblock %}
@@ -88,7 +163,7 @@
 <!-- SUPER SCRIPTS -->
 {% block scripts %}
 {{ block.super }}
-<script src="https://unpkg.com/react@15/dist/react.js"></script>
-<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+<!-- <script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> -->
 
 {% endblock %}

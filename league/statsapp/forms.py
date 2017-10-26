@@ -42,11 +42,78 @@ class LoginForm(AuthenticationForm):
     )
 
 class SearchForm(forms.Form):
-    position = forms.CharField(label= "Position",
-        required=True,
-        max_length=5
+    POSITION_CHOICES = (
+        ("None","Pick a Position."),
+        ("QB","QuarterBack(QB)"),
+        ("RB","RunningBack(RB)"),
+        ("FB","FullBack(FB)"),
+        ("LT","Left Tackle(LT)"),
+        ("LG","Left Guard(LG)"),
+        ("C","Center(C)"),
+        ("RG","Right Guard(RG)"),
+        ("RT","Right Tackle(RT)"),
+        ("TE","Tight End(TE)"),
+        ("WR","Wide Receiver(WR)"),
+        ("DE","Defensive End(DE)"),
+        ("DT","Defensive Tackle(DT)"),
+        ("OLB","Outside LineBacker(OLB)"),
+        ("ILB","Inside LineBacker(ILB)"),
+        ("CB","CornerBack(CB)"),
+        ("SS","Strong Safety(SS)"),
+        ("FS","Free Safety(FS)"),
+        ("K","Kicker(K)"),
+        ("P","Punter(P)"),
+        ("KR","Kick Returner(KR)"),
+        ("PR","Punt Returner(PR)"),
+    )
+    TEAM_CHOICES = (
+        ("None","Pick a Team."),
+        ("ARI","Arizona Cardinals"),
+        ("ATL","Atlanta Falcons"),
+        ("BAl","Baltimore Ravens"),
+        ("BUF","Buffalo Bills"),
+        ("CAR","Carolina Panthers"),
+        ("CHI","Chicago Bears"),
+        ("CIN","Cincinnati Bengals"),
+        ("CLE","Cleveland Browns"),
+        ("DAL","Dallas Cowboys"),
+        ("DEN","Denver Broncos"),
+        ("DET","Detroit Lions"),
+        ("GB","Green Bay Packers"),
+        ("HOU","Houston Texans"),
+        ("IND","Indianapolis Colts"),
+        ("JAC","Jacksonville Jaguars"),
+        ("KC","Kansas City Chiefs"),
+        ("MIA","Miami Dolphins"),
+        ("MIN","Minnesota Vikings"),
+        ("NE","New England Patriots"),
+        ("NO","New Orleans Saints"),
+        ("OAK","Oakland Raiders"),
+        ("PHI","Philadelphia Eagles"),
+        ("PIT","Pittsburgh Steelers"),
+        ("SD","San Diego Chargers"),
+        ("SEA","Seattle Seahawks"),
+        ("SF","San Francisco 49ers"),
+        ("STL","St. Louis Rams"),
+        ("TB","Tampa Bay Buccaneers"),
+        ("TEN","Tennessee Titans"),
+        ("WAS","Washington Redskins"),
+        ("NYG","New York Giants"),
+        ("NYJ","New York Jets"),
+        ("LA","Los Angeles Rams"),
+        ("JAX","Jacksonville Jaguars"),
+        ("LAC","Los Angeles Chargers"),
+    )
+    position = forms.ChoiceField(choices = POSITION_CHOICES,
+        label= "Position",
+        required=False
         )
-    full_name = forms.CharField(label = "Full Name",
+    full_name = forms.CharField(label = "Enter a name:",
         required=False,
-        max_length=255
+        max_length=255,
+        strip = True
         )
+    team = forms.ChoiceField(choices=TEAM_CHOICES,
+        label = "Team",
+        required=False
+    )

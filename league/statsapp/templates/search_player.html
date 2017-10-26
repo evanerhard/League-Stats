@@ -9,7 +9,7 @@
 {% block content %}
 {% if players %}
   {% for p in players %}
-    <p><a href="/players/{{p.player_id}}"> {{p}} </a></p>
+    <p><a href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
   {% endfor %}
 
 {% else %}
@@ -24,6 +24,8 @@
       <label> {{ form.full_name.label_tag }}</label>
         {{ form.full_name }}
 
+        <label> {{ form.team.label_tag }}</label>
+          {{ form.team }}
       <input type="submit" name="q" class="button expanded" value="Search" />
     </div>
   </form>
