@@ -337,6 +337,217 @@ def rushing_yds_player(request, player_id):
 		}
 		return render(request, "player_rushing.html", {'data':data})
 
+def sacks_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+		position = player.get_position()
+		weeks = []
+		sackperweek = {}
+
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+
+		for w in weeks:
+			sackperweek[w] = []
+		weeks.sort(key=int)
+
+		for g in games:
+			sacks = 0
+			q = nfldb.Query(db).play(gsis_id=g.gsis_id)
+			plays = q.player(full_name=name).as_plays()
+			for p in plays:
+				results = p.defense_sk
+				sacks += results
+				#print results
+
+			for w in weeks:
+				if w == g.week:
+					sackperweek[w] += [sacks]
+
+		for w in weeks:
+			sackperweek[w] = sum(sackperweek[w])
+
+		data = {
+			'player':player,
+			'player_id':player_id,
+			'name':name,
+			'team':team,
+			'position':position,
+			'weeks':weeks,
+			'sacks_per_week':sackperweek,
+		}
+		return render(request, "player_sack.html", {'data':data})
+
+def tackles_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+		position = player.get_position()
+		weeks = []
+		tackleperweek = {}
+
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+
+		for w in weeks:
+			tackleperweek[w] = []
+		weeks.sort(key=int)
+
+		for g in games:
+			tackles = 0
+			q = nfldb.Query(db).play(gsis_id=g.gsis_id)
+			plays = q.player(full_name=name).as_plays()
+			for p in plays:
+				results = p.defense_tkl
+				tackles += results
+
+
+			for w in weeks:
+				if w == g.week:
+					tackleperweek[w] += [tackles]
+
+		for w in weeks:
+			tackleperweek[w] = sum(tackleperweek[w])
+
+		data = {
+			'player':player,
+			'player_id':player_id,
+			'name':name,
+			'team':team,
+			'position':position,
+			'weeks':weeks,
+			'tackles_per_week':tackleperweek,
+		}
+		return render(request, "player_tackle.html", {'data':data})
+
+def picks_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+		position = player.get_position()
+		weeks = []
+		pickperweek = {}
+
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+
+		for w in weeks:
+			pickperweek[w] = []
+		weeks.sort(key=int)
+
+		for g in games:
+			picks = 0
+			q = nfldb.Query(db).play(gsis_id=g.gsis_id)
+			plays = q.player(full_name=name).as_plays()
+			for p in plays:
+				results = p.defense_int
+				picks += results
+				# print picks
+				# print p
+
+			for w in weeks:
+				if w == g.week:
+					pickperweek[w] += [picks]
+
+		for w in weeks:
+			pickperweek[w] = sum(pickperweek[w])
+
+		data = {
+			'player':player,
+			'player_id':player_id,
+			'name':name,
+			'team':team,
+			'position':position,
+			'weeks':weeks,
+			'picks_per_week':pickperweek,
+		}
+		return render(request, "player_picks.html", {'data':data})
+
+def passblock_player(request, player_id):
+	if request.method == "POST":
+		return HttpResponse('Cannot POST.')
+	if request.method == "GET":
+		db = nfldb.connect()
+		q = nfldb.Query(db)
+		data = {}
+		seas_year = '2017'
+		player = Player.objects.get(player_id=player_id)
+		name = str(player)
+		team = player.get_team()
+		position = player.get_position()
+		weeks = []
+		blkperweek = {}
+
+		games = q.game(season_year=seas_year, season_type='Regular', team=team).as_games()
+
+		for i in range(0,len(games)):
+			if games[i].finished:
+				weeks.append(games[i].week)
+
+		for w in weeks:
+			blkperweek[w] = []
+		weeks.sort(key=int)
+
+		for g in games:
+			blocks = 0
+			q = nfldb.Query(db).play(gsis_id=g.gsis_id)
+			plays = q.player(full_name=name).as_plays()
+			for p in plays:
+				results = p.defense_pass_def
+				blocks += results
+				# print picks
+				# print p
+
+			for w in weeks:
+				if w == g.week:
+					blkperweek[w] += [blocks]
+
+		for w in weeks:
+			blkperweek[w] = sum(blkperweek[w])
+
+		data = {
+			'player':player,
+			'player_id':player_id,
+			'name':name,
+			'team':team,
+			'position':position,
+			'weeks':weeks,
+			'blocks_per_week':blkperweek,
+		}
+		return render(request, "player_blocks.html", {'data':data})
+
+
 O_Positions = ['QB', 'RB', 'FB', 'LT', 'LG', 'C', 'RG', 'RT', 'TE','WR' ]
 D_Positions = ['DE', 'DT', 'OLB', 'ILB', 'CB', 'SS', 'FS']
 S_Positions = ['K', 'P', 'KR', 'PR']

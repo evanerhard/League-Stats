@@ -99,37 +99,83 @@
         <th>Passing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
     </tr>
+<!-- Catches per game-->
+    <!-- <tr>
+      <th>Catches Per Game:</th>
+      <td><a href="/players/{{ player_id }}/catches_player/">Graph</a></td>
+    </tr> -->
     {% endif %}
-
 <!-- Defensive Player Graphs -->
     {% if position == 'DE' %}
-    {% if position == 'DT' %}
-    {% if position == 'OLB' %}
-    {% if position == 'ILB' %}
     <tr>
         <th>Sacks Per Game:</th>
-        <!-- <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td> -->
+        <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td>
     </tr>
-
     <tr>
         <th>Tackles Per Game:</th>
-        <!-- <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td> -->
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
     </tr>
-
     {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-
-    {% if position == 'SS' or position == 'FS' or position == 'CB' %}
+    {% if position == 'DT' %}
+    <tr>
+        <th>Sacks Per Game:</th>
+        <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td>
+    </tr>
     <tr>
         <th>Tackles Per Game:</th>
-        <!-- <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td> -->
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
     </tr>
-
+    {% endif %}
+<!-- LineBackers-->
+    {% if position == 'OLB' %}
+    <tr>
+        <th>Sacks Per Game:</th>
+        <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td>
+    </tr>
+    <tr>
+        <th>Tackles Per Game:</th>
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'OLB' %}
+    <tr>
+        <th>Sacks Per Game:</th>
+        <td><a href="/players/{{ player_id }}/sacks_player/">Graph</a></td>
+    </tr>
+    <tr>
+        <th>Tackles Per Game:</th>
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+<!--Pass Defense Players-->
+    {% if position == 'FS' %}
+    <tr>
+        <th>Tackles Per Game:</th>
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
+    </tr>
     <tr>
         <th>Picks Per Game:</th>
-        <!-- <td><a href="/players/{{ player_id }}/picks_player/">Graph</a></td> -->
+        <td><a href="/players/{{ player_id }}/picks_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'CB' %}
+    <tr>
+        <th>Tackles Per Game:</th>
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
+    </tr>
+    <tr>
+        <th>Picks Per Game:</th>
+        <td><a href="/players/{{ player_id }}/picks_player/">Graph</a></td>
+    </tr>
+    {% endif %}
+    {% if position == 'SS' %}
+    <tr>
+        <th>Tackles Per Game:</th>
+        <td><a href="/players/{{ player_id }}/tackles_player/">Graph</a></td>
+    </tr>
+    <tr>
+        <th>Picks Per Game:</th>
+        <td><a href="/players/{{player_id }}/picks_player/">Graph</a></td>
     </tr>
     {% endif %}
 

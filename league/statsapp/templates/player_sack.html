@@ -17,8 +17,8 @@
   <p>Player Name: {{ data.name }}</p>
   <p>Team Id: {{data.team }}</p>
   <p>Position: {{ data.position }}
-  {% for key, value in data.rushing_per_week.items %}
-      <p>Rushing Yards per week {{key}}: {{ value }}</p>
+  {% for key, value in data.sacks_per_week.items %}
+      <p>Sacks per week {{key}}: {{ value }}</p>
   {% endfor %}
 
 
@@ -32,7 +32,7 @@
 <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
-var endpoint = '/players/{{data.player_id}}/rushing_yds_player'
+var endpoint = '/players/{{data.player_id}}/sacks_player'
 var defaultData = []
 var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
 $.ajax({
@@ -56,8 +56,8 @@ var chart_ex = new Chart(ctx, {
   data:{
     labels: labels,
     datasets: [{
-      label:'Rushing Yards per Week',
-      data:   [{% for key, value in data.rushing_per_week.items %}"{{value}}",{% endfor %}],
+      label:'Sacks per Week',
+      data:   [{% for key, value in data.sacks_per_week.items %}"{{value}}",{% endfor %}],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(255, 99, 132, 0.2)',

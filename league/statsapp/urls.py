@@ -13,6 +13,11 @@ urlpatterns = [
     url(r'^players/(?P<player_id>[a-zA-Z--9]+)/$', views.player_view, name='players'),
     url(r'^players/(?P<player_id>[a-zA-Z--9]+)/(?P<season_year>[a-zA-Z--9]+)/passing_yds_player/$', views.passing_yds_player, name='passing'),
     url(r'^players/(?P<player_id>[a-zA-Z--9]+)/rushing_yds_player/$', views.rushing_yds_player, name='rushing'),
+    url(r'^players/(?P<player_id>[a-zA-Z--9]+)/sacks_player/$', views.sacks_player, name='sacks'),
+    url(r'^players/(?P<player_id>[a-zA-Z--9]+)/tackles_player/$', views.tackles_player, name='tackles'),
+    url(r'^players/(?P<player_id>[a-zA-Z--9]+)/picks_player/$', views.picks_player, name='picks'),
+    url(r'^players/(?P<player_id>[a-zA-Z--9]+)/blocks_player/$', views.blocks_player, name='blocks'),
+
 
     url(r'^games/$', views.games_list, name='games_list'),
     url(r'^games/(?P<gsis_id>[a-zA-z--9]+)$', views.game_view, name='games'),
