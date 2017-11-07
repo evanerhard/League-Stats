@@ -16,9 +16,9 @@
   <canvas id="chart_ex" width="1200" height="400"></canvas>
   <p>Player Name: {{ data.name }}</p>
   <p>Team Id: {{data.team }}</p>
-  <p>Position: {{ data.position }}</p>
-  {% for key, value in data.passing_per_week.items %}
-      <p>Passing Yards per week {{key}}: {{ value }}</p>
+  <p>Position: {{ data.position }}
+  {% for key, value in data.receiving_per_week.items %}
+      <p>Receiving Yards per week {{key}}: {{ value }}</p>
   {% endfor %}
 
 
@@ -32,9 +32,8 @@
 <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
-var endpoint = '/players/{{data.player_id}}/passing_yds_player'
+var endpoint = '/players/{{data.player_id}}/receiving_yds_player'
 var defaultData = []
-// var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
 var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
 $.ajax({
   method:"GET",
@@ -57,9 +56,8 @@ var chart_ex = new Chart(ctx, {
   data:{
     labels: labels,
     datasets: [{
-      label:'Passing Yards per Week',
-      fill: false,
-      data:   [{% for key, value in data.passing_per_week.items %}"{{value}}",{% endfor %}],
+      label:'Receiving Yards per Week',
+      data:   [{% for key, value in data.receiving_per_week.items %}"{{value}}",{% endfor %}],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(255, 99, 132, 0.2)',
@@ -80,29 +78,8 @@ var chart_ex = new Chart(ctx, {
       }]
   },
   options: {
-    responsive:true,
-    tooltips:{
-      mode: 'dataset'
-      // insersect: false,
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
     scales: {
-      xAxes:[{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString:'Game Week'
-        }
-      }],
       yAxes: [{
-        display:true,
-        scaleLabel: {
-          display: true,
-          labelString:'Passing Yards'
-        },
         ticks: {
           beginAtZero:true
         }

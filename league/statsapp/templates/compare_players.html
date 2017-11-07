@@ -10,32 +10,29 @@
 {% if players %}
   {% for p in players %}
     <p><a href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
+  {% endfor %}
 
-{% endfor %}
-{% elif player %}
-  <p><a href="/players/{{player.player_id}}"> {{player.full_name}}</a>({{ player.position }})</p>
 {% else %}
-  <form class="form-horizontal" method="post" action="{% url 'search_player' %}">
+  <form class="form-horizontal" method="post" action="{% url 'compare_players' %}">
     {% csrf_token %}
     <div class="row column form">
-      <h4 class="text-center">Search for a Player</h4>
+      <h4 class="text-center">Compare Players:</h4>
       {{ form.errors }}
       <label> {{ form.position.label_tag }}</label>
       {{ form.position }}
 
-      <label> {{ form.full_name.label_tag }}</label>
-        {{ form.full_name }}
+      <label> {{ form.full_name_1.label_tag }}</label>
+        {{ form.full_name_1 }}
 
-        <label> {{ form.team.label_tag }}</label>
-          {{ form.team }}
+        <label> {{ form.full_name_2.label_tag }}</label>
+          {{ form.full_name_2 }}
+
       <input type="submit" name="q" class="button expanded" value="Search" />
     </div>
   </form>
 
 
 {% endif %}
-
-
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

@@ -93,17 +93,21 @@
         <th>Passing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
     </tr>
+    <tr>
+      <th>Catches Per Game:</th>
+      <td><a href="/players/{{ player_id }}/catches_player/">Graph</a></td>
+    </tr>
     {% endif %}
     {% if position == 'WR' %}
     <tr>
-        <th>Passing Yards Per Game:</th>
-        <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+        <th>Receiving Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/receiving_yds_player/">Graph</a></td>
     </tr>
 <!-- Catches per game-->
-    <!-- <tr>
+    <tr>
       <th>Catches Per Game:</th>
       <td><a href="/players/{{ player_id }}/catches_player/">Graph</a></td>
-    </tr> -->
+    </tr>
     {% endif %}
 <!-- Defensive Player Graphs -->
     {% if position == 'DE' %}
