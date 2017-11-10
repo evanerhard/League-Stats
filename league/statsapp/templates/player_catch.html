@@ -78,8 +78,29 @@ var chart_ex = new Chart(ctx, {
       }]
   },
   options: {
+    responsive:true,
+    tooltips:{
+      mode: 'dataset'
+      // insersect: false,
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    },
     scales: {
+      xAxes:[{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString:'Game Week'
+        }
+      }],
       yAxes: [{
+        display:true,
+        scaleLabel: {
+          display: true,
+          labelString:'Catches'
+        },
         ticks: {
           beginAtZero:true
         }

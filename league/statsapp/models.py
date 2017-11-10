@@ -479,7 +479,7 @@ class Player(models.Model):
             return str(self.full_name)
 
     def get_position(self):
-        return self.position
+        return str(self.position)
 
     def get_team(self):
         if self.team == None:

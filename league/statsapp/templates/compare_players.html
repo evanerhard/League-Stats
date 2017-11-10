@@ -7,12 +7,15 @@
 
 
 {% block content %}
-{% if players %}
-  {% for p in players %}
-    <p><a href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
-  {% endfor %}
+
+{% if player1 and player2 %}
+  {% if player1 and player2 %}
+    <p><a href="/players/{{player1.player_id}}"> {{player1}} </a> ({{player1.team}})</p>
+    <p><a href="/players/{{player2.player_id}}"> {{player2}} </a> ({{player2.team}})</p>
+  {% endif %}
 
 {% else %}
+
   <form class="form-horizontal" method="post" action="{% url 'compare_players' %}">
     {% csrf_token %}
     <div class="row column form">
@@ -24,10 +27,10 @@
       <label> {{ form.full_name_1.label_tag }}</label>
         {{ form.full_name_1 }}
 
-        <label> {{ form.full_name_2.label_tag }}</label>
-          {{ form.full_name_2 }}
+      <label> {{ form.full_name_2.label_tag }}</label>
+        {{ form.full_name_2 }}
 
-      <input type="submit" name="q" class="button expanded" value="Search" />
+      <input type="submit" name="q" class="button expanded" value="Compare" />
     </div>
   </form>
 

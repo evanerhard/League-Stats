@@ -127,12 +127,13 @@ def players_list(request):
 
 def player_view(request, player_id):
 	plyr = Player.objects.get(player_id=player_id)
+	posit = plyr.get_position()
 	context = {
 		'player_id':plyr.player_id,
 		'gsis_name':plyr.gsis_name,
 		'full_name':plyr.full_name,
 		'team':plyr.team,
-		'position':plyr.position,
+		'position':posit,
 		'profile_id':plyr.profile_id,
 		'profile_url':plyr.profile_url,
 		'uniform_number':plyr.uniform_number,
@@ -670,6 +671,7 @@ def search_player(request):
 			s_position = form.cleaned_data['position']
 			s_name = form.cleaned_data['full_name']
 			s_team = form.cleaned_data['team']
+			player = None
 			if s_team == 'None' and s_position == 'None':
 				players = Player.objects.filter(full_name__contains=s_name)
 				player, s_score = nfldb.player_search(db, s_name)
@@ -678,6 +680,7 @@ def search_player(request):
 				players = Player.objects.filter(team=s_team)
 			elif s_team == 'None' and s_name == '':
 				players = Player.objects.filter(position=s_position)
+
 			elif s_team == 'None':
 				players = Player.objects.filter(position=s_position,full_name__contains=s_name)
 			else:
@@ -688,11 +691,15 @@ def search_player(request):
 	else:
 		form = SearchForm()
 	return render(request, "search_player.html", {'form':form})
-
+QB_STATS = ('passing_yds','rushing_yds')
+RB_STATS = ('rushing_yds')
+WR_STATS = ('receiving_yds')
+FB_STATS = ('rushing_yds')
 def compare_players(request):
 	if request.method == 'POST':
 		form = CompareForm(request.POST)
 		if form.is_valid():
+			db = nfldb.connect()
 			s_position = form.cleaned_data['position']
 			s_player1 = form.cleaned_data['full_name_1']
 			s_player2 = form.cleaned_data['full_name_2']
@@ -700,9 +707,13 @@ def compare_players(request):
 				players = Player.objects.filter(Q(position=s_position) & ~Q(team='UNK'))
 			else:
 				players = Player.objects.exclude(team='UNK') & Player.objects.filter(position=s_position)
-				print 'Else statement. Search for players using fuzzy.'
+				player1,s_score1 = nfldb.player_search(db,s_player1)
+				player2,s_score2 = nfldb.player_search(db,s_player2)
+				#print 'Else statement. Search for players using fuzzy.'
+				print 'Player 1: %s ; Similarity Score: %d' % (player1, s_score1)
+				print 'Player 2: %s ; Similarity Score: %d' % (player2, s_score2)
 
-			return render(request, "compare_players.html", {'form':form, 'players':players})
+			return render(request, "compare_players.html", {'form':form, 'players':players, 'player1':player1, 'player2':player2})
 	else:
 		form = CompareForm()
 	return render(request, "compare_players.html", {'form':form})

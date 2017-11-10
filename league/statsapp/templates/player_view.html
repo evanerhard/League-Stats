@@ -17,10 +17,12 @@
         <th>Player Id:</th>
         <td>{{ player_id }} </td>
     </tr>
+    {% if gsis_name %}
     <tr>
         <th>gsis Name:</th>
         <td>{{ gsis_name }} </td>
     </tr>
+    {% endif %}
     <tr>
         <th>Player Name:</th>
         <td>{{ full_name }} </td>
@@ -37,10 +39,12 @@
           <th>Profile Id:</th>
           <td>{{ profile_id }} </td>
     </tr>
+    {% if profile_url %}
     <tr>
           <th>Profile Url:</th>
           <td><a href="{{ profile_url }}">NFLprofile</a></td>
     </tr>
+    {% endif %}
     <tr>
           <th>Uniform Number:</th>
           <td>{{ uniform_number }} </td>
@@ -66,10 +70,10 @@
           <td>{{ years_pro }} </td>
     </tr>
 <!-- Offensive Player Graphs -->
-    {% if position == 'QB' %}
+    {% if position == "QB" %}
     <tr>
           <th>Passing Yards Per Game:</th>
-          <td><a href="/players/{{ player_id }}/2017/passing_yds_player/">Graph</a></td>
+          <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
     </tr>
     <tr>
         <th>Rushing Yards Per Game:</th>
@@ -96,6 +100,7 @@
     <tr>
       <th>Catches Per Game:</th>
       <td><a href="/players/{{ player_id }}/catches_player/">Graph</a></td>
+      <td><a href="{% url 'catches' %}">Graph</a></td>
     </tr>
     {% endif %}
     {% if position == 'WR' %}
