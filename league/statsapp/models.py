@@ -479,11 +479,124 @@ class Player(models.Model):
             return str(self.full_name)
 
     def get_position(self):
-        return str(self.position)
+        if str(self.position) == 'QB':
+            return "QuarterBack(QB)"
+        elif str(self.position) == 'WR':
+            return "Wide Receiver(WR)"
+        elif str(self.position) == 'TE':
+            return "Tight End(TE)"
+        elif str(self.position) == 'RB':
+            return "RunningBack(RB)"
+        elif str(self.position) == 'FB':
+            return "FullBack(FB)"
+        elif str(self.position) == 'LT':
+            return "Left Tackle(LT)"
+        elif str(self.position) == 'LG':
+            return "Left Guard(LG)"
+        elif str(self.position) == 'C':
+            return "Center(C)"
+        elif str(self.position) == 'RG':
+            return "Right Guard(RG)"
+        elif str(self.position) == 'RT':
+            return "Right Tackle(RT)"
+        elif str(self.position) == 'DE':
+            return "Defensive End(DE)"
+        elif str(self.position) == 'DT' :
+            return "Defensive Tackle(DT"
+        elif str(self.position) == 'OLB':
+            return "Outside LineBacker(OLB)"
+        elif str(self.position) == 'ILB':
+            return "Inside LineBacker(ILB)"
+        elif str(self.position) == 'CB':
+            return "CornerBack(CB)"
+        elif str(self.position) == 'SS':
+            return "Strong Safety(SS)"
+        elif str(self.position) == 'FS':
+            return "Free Safety(FS)"
+        elif str(self.position) == 'K':
+            return "Kicker(K)"
+        elif str(self.position) == 'P':
+            return "Punter(P)"
+        elif str(self.position) == 'KR':
+            return "Kick Returner(KR)"
+        elif str(self.position) == 'PR':
+            return "Punt Returner(PR)"
+        else:
+            return str(self.position)
 
     def get_team(self):
         if self.team == None:
-            return 'No Team.'
+            return 'NA'
+        if self.team == 'ARI':
+            return "Arizona Cardinals"
+        elif self.team == 'ATL':
+            return "Atlanta Falcons"
+        elif self.team == 'BAl':
+            return "Baltimore Ravens"
+        elif self.team == 'BUF':
+            return "Buffalo Bills"
+        elif self.team == 'CAR':
+            return "Carolina Panthers"
+        elif self.team == 'CHI':
+            return "Chicago Bears"
+        elif self.team == 'CIN':
+            return "Cincinnati Bengals"
+        elif self.team == 'CLE':
+            return "Cleveland Browns"
+        elif self.team == 'DAL':
+            return "Dallas Cowboys"
+        elif self.team == 'DEN':
+            return "Denver Broncos"
+        elif self.team == 'DET':
+            return "Detroit Lions"
+        elif self.team == 'GB':
+            return "Green Bay Packers"
+        elif self.team == 'HOU':
+            return "Houston Texans"
+        elif self.team == 'IND':
+            return "Indianapolis Colts"
+        elif self.team == 'JAC':
+            return "Jacksonville Jaguars"
+        elif self.team == 'KC':
+            return "Kansas City Chiefs"
+        elif self.team == 'MIA':
+            return "Miami Dolphins"
+        elif self.team == 'MIN':
+            return "Minnesota Vikings"
+        elif self.team == 'NE':
+            return "New England Patriots"
+        elif self.team == 'NO':
+            return "New Orleans Saints"
+        elif self.team == 'OAK':
+            return "Oakland Raiders"
+        elif self.team == 'PHI':
+            return "Philadelphia Eagles"
+        elif self.team == 'PIT':
+            return "Pittsburgh Steelers"
+        elif self.team == 'SD':
+            return "San Diego Chargers"
+        elif self.team == 'SEA':
+            return "Seattle Seahawks"
+        elif self.team == 'SF':
+            return "San Francisco 49ers"
+        elif self.team == 'STL':
+            return "St. Louis Rams"
+        elif self.team == 'TB':
+            return "Tampa Bay Buccaneers"
+        elif self.team == 'TEN':
+            return "Tennessee Titans"
+        elif self.team == 'WAS':
+            return "Washington Redskins"
+        elif self.team == 'NYG':
+            return "New York Giants"
+        elif self.team == 'NYJ':
+            return "New York Jets"
+        elif self.team == 'LA':
+            return "Los Angeles Rams"
+        elif self.team == 'JAX':
+            return "Jacksonville Jaguars"
+        elif self.team == 'LAC':
+            return "Los Angeles Chargers"
         else:
             return str(self.team)
     def get_years_pro(self):

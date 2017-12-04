@@ -7,11 +7,14 @@
 
 
 {% block content %}
-
-{% if player1 and player2 %}
-  {% if player1 and player2 %}
-    <p><a href="/players/{{player1.player_id}}"> {{player1}} </a> ({{player1.team}})</p>
-    <p><a href="/players/{{player2.player_id}}"> {{player2}} </a> ({{player2.team}})</p>
+<body>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+{% if data.player1 and data.player2 %}
+  {% if data.player1 and data.player2 %}
+    <canvas id="canvas" width="1200" height="400"></canvas>
+    <p><a style="color:red" href="/players/{{data.player1.player_id}}"> {{data.player1}} </a></p>
+    <p><a style="color:red" href="/players/{{data.player2.player_id}}"> {{data.player2}} </a></p>
   {% endif %}
 
 {% else %}
@@ -21,7 +24,7 @@
     <div class="row column form">
       <h4 class="text-center">Compare Players:</h4>
       {{ form.errors }}
-      <label> {{ form.position.label_tag }}</label>
+
       {{ form.position }}
 
       <label> {{ form.full_name_1.label_tag }}</label>
@@ -30,17 +33,116 @@
       <label> {{ form.full_name_2.label_tag }}</label>
         {{ form.full_name_2 }}
 
-      <input type="submit" name="q" class="button expanded" value="Compare" />
+        <div class="medium-centered column" style="text-align:center">
+        <input class="button" type="submit" name="q" class="button btn-primary" value="Search" />
+      </div>
     </div>
   </form>
-
+  <div class="medium-4 columns">
+    <center><p>&emsp;&emsp;***Currently the compare function is only working for QuarterBacks(QB).***</p></center>
+  </div>
 
 {% endif %}
+
+</div>
+</div>
+</body>
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->
 {% block scripts %}
 {{ block.super }}
+<!-- <script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+<script>
+var endpoint = '/compare/'
+var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
+$.ajax({
+  method:"GET",
+  url:endpoint,
+  success: function(data){
+    labels = data.labels
+    defaultData = data.default
+    console.log(data)
+  },
+  error: function(error_data){
+    console.log("error")
+    console.log(error_data)
+  }
 
+})
+var lineChartData = {
+       labels: labels,
+       datasets: [{
+           label: "{{data.player1.full_name}}",
+           backgroundColor:  [
+               'rgba(139, 0, 0, 1)',
+           ],
+           borderColor: [
+             'rgba(139, 0, 0, 0.5)',
+           ],
+           fill: false,
+           data: [{% for key, value in data.passydperweek1.items %}"{{value}}",{% endfor %}],
+           yAxisID: "y-axis-1",
+       }, {
+           label: "{{data.player2.full_name}}",
+           borderColor:  [
+              'rgba(54, 162, 235, 0.5)',
+           ],
+           backgroundColor: [
+             'rgba(54, 162, 235, 1)',
+           ],
+           fill: false,
+           data: [
+             {% for key, value in data.passydperweek2.items %}"{{value}}",{% endfor %}
+           ],
+           yAxisID: "y-axis-2"
+       }]
+   };
+Chart.defaults.global.responsive = true;
+Chart.defaults.global.defaultFontColor = '#000';
+window.onload = function() {
+   var ctx = document.getElementById("canvas").getContext("2d");
+   window.myLine = Chart.Line(ctx, {
+       data: lineChartData,
+       options: {
+           responsive: true,
+           hoverMode: 'index',
+           stacked: false,
+           title:{
+               display: true,
+               fontSize:20,
+               fontColor:'#000',
+               text:'Comparison of Passing Yards for: {{data.player1.full_name}} vs. {{data.player2.full_name}}'
+           },
+           legend:{
+             labels:{
+               fontColor:'#000'
+             }
+           },
+           scales: {
+               yAxes: [{
+                   type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                   display: true,
+                   position: "left",
+                   id: "y-axis-1",
+               }, {
+                   type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                   display: true,
+                   position: "right",
+                   id: "y-axis-2",
+
+                   // grid line settings
+                   gridLines: {
+                       drawOnChartArea: false, // only want the grid lines for one axis to show up
+                   },
+               }],
+           }
+       }
+   });
+};
+
+</script>
 
 {% endblock %}

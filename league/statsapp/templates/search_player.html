@@ -7,35 +7,38 @@
 
 
 {% block content %}
-{% if players %}
-  {% for p in players %}
-    <p><a href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
+<body>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        {% if players %}
+          {% for p in players %}
+            <p><a style="color:red;margin-left:100px" href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
+        {% endfor %}
+        {% elif player %}
+          <p><a href="/players/{{player.player_id}}"> {{player.full_name}}</a>({{ player.position }})</p>
+        {% else %}
+          <form class="form-horizontal" method="post" action="{% url 'search_player' %}">
+            {% csrf_token %}
+            <div class="row column form">
+              <h4>Search for a Player<br /></h4>
+                {{ form.errors }}<br><br>
+              <hr></hr>
 
-{% endfor %}
-{% elif player %}
-  <p><a href="/players/{{player.player_id}}"> {{player.full_name}}</a>({{ player.position }})</p>
-{% else %}
-  <form class="form-horizontal" method="post" action="{% url 'search_player' %}">
-    {% csrf_token %}
-    <div class="row column form">
-      <h4 class="text-center">Search for a Player</h4>
-      {{ form.errors }}
-      <label> {{ form.position.label_tag }}</label>
-      {{ form.position }}
+                {{ form.position }}<br><br>
 
-      <label> {{ form.full_name.label_tag }}</label>
-        {{ form.full_name }}
-
-        <label> {{ form.team.label_tag }}</label>
-          {{ form.team }}
-      <input type="submit" name="q" class="button expanded" value="Search" />
-    </div>
-  </form>
-
-
-{% endif %}
-
-
+              <label> {{ form.full_name.label_tag }}</label>
+                {{ form.full_name }}
+              <label> {{ form.team.label_tag }}</label>
+                {{ form.team }}<br><br><br><br>
+            </div>
+              <div class="medium-centered column" style="text-align:center">
+              <input class="button" type="submit" name="q" class="button btn-primary" value="Search" />
+            </div>
+          </form>
+        {% endif %}
+      </div>
+  </div>
+</body>
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

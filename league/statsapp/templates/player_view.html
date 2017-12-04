@@ -7,38 +7,47 @@
 
 
 {% block content %}
-
-<div class="large-8 columns">
+<style>
+  th{
+    text-align: center;
+  }
+  td{
+    text-align: center;
+  }
+</style>
+<body>
+<div class="large-4 columns">
   <h1 style="text-align:center">{{full_name}}</h1>
 </div>
 <div class="large-4 columns">
-  <table style="width:100%">
-    <tr>
+  <table style="width:100%;align:center">
+    <!-- <tr>
         <th>Player Id:</th>
         <td>{{ player_id }} </td>
-    </tr>
-    {% if gsis_name %}
-    <tr>
-        <th>gsis Name:</th>
-        <td>{{ gsis_name }} </td>
-    </tr>
-    {% endif %}
+    </tr> -->
+
     <tr>
         <th>Player Name:</th>
         <td>{{ full_name }} </td>
     </tr>
+    {% if gsis_name %}
+    <tr>
+        <th>Short Name:</th>
+        <td>{{ gsis_name }} </td>
+    </tr>
+    {% endif %}
     <tr>
         <th>Team Name:</th>
-        <td>{{ team }} </td>
+        <td>{{ teamcity }} {{ teamname }}</td>
     </tr>
     <tr>
           <th>Position:</th>
           <td>{{ position }} </td>
     </tr>
-    <tr>
+    <!-- <tr>
           <th>Profile Id:</th>
           <td>{{ profile_id }} </td>
-    </tr>
+    </tr> -->
     {% if profile_url %}
     <tr>
           <th>Profile Url:</th>
@@ -97,10 +106,10 @@
         <th>Passing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
     </tr>
+    <!-- Catches per game-->
     <tr>
       <th>Catches Per Game:</th>
       <td><a href="/players/{{ player_id }}/catches_player/">Graph</a></td>
-      <td><a href="{% url 'catches' %}">Graph</a></td>
     </tr>
     {% endif %}
     {% if position == 'WR' %}
@@ -213,6 +222,7 @@
 
 </table>
 </div>
+</body>
 {% endblock %}
 
 <!-- SUPER SCRIPTS -->

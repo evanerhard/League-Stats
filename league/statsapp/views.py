@@ -120,7 +120,7 @@ def players_list(request):
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		players = serializers.serialize('json',Player.objects.exclude(years_pro__isnull=True)[:50])
+		players = serializers.serialize('json',Player.objects.exclude(years_pro__isnull=True)[:1000])
 		json_players = json.loads(players)
 		# return HttpResponse( players, content_type='application/json')
 		return render(request, 'players.html', {'players_list':json_players})
@@ -128,11 +128,14 @@ def players_list(request):
 def player_view(request, player_id):
 	plyr = Player.objects.get(player_id=player_id)
 	posit = plyr.get_position()
+	team_name = plyr.team.get_team_name()
+	team_city = plyr.team.get_team_city()
 	context = {
 		'player_id':plyr.player_id,
 		'gsis_name':plyr.gsis_name,
 		'full_name':plyr.full_name,
-		'team':plyr.team,
+		'teamcity':team_city,
+		'teamname':team_name,
 		'position':posit,
 		'profile_id':plyr.profile_id,
 		'profile_url':plyr.profile_url,
@@ -144,11 +147,6 @@ def player_view(request, player_id):
 		'years_pro':plyr.years_pro,
 	}
 	return render(request, "player_view.html", context)
-	def if_qb(self):
-		if self.position == "QB":
-			return True
-		else:
-			return False
 
 def register(request):
 	if request.method == "POST":
@@ -691,29 +689,96 @@ def search_player(request):
 	else:
 		form = SearchForm()
 	return render(request, "search_player.html", {'form':form})
-QB_STATS = ('passing_yds','rushing_yds')
-RB_STATS = ('rushing_yds')
-WR_STATS = ('receiving_yds')
-FB_STATS = ('rushing_yds')
+
+# QB_STATS = ('passing_yds','rushing_yds')
+# RB_STATS = ('rushing_yds')
+# WR_STATS = ('receiving_yds')
+# FB_STATS = ('rushing_yds')
 def compare_players(request):
 	if request.method == 'POST':
 		form = CompareForm(request.POST)
 		if form.is_valid():
 			db = nfldb.connect()
+			seas_year = 2017
+			weeks = []
+			passydperweek1 = {}
+			passydperweek2 = {}
 			s_position = form.cleaned_data['position']
 			s_player1 = form.cleaned_data['full_name_1']
 			s_player2 = form.cleaned_data['full_name_2']
-			if s_player1 == '' or s_player2 == '':
-				players = Player.objects.filter(Q(position=s_position) & ~Q(team='UNK'))
-			else:
-				players = Player.objects.exclude(team='UNK') & Player.objects.filter(position=s_position)
-				player1,s_score1 = nfldb.player_search(db,s_player1)
-				player2,s_score2 = nfldb.player_search(db,s_player2)
-				#print 'Else statement. Search for players using fuzzy.'
-				print 'Player 1: %s ; Similarity Score: %d' % (player1, s_score1)
-				print 'Player 2: %s ; Similarity Score: %d' % (player2, s_score2)
 
-			return render(request, "compare_players.html", {'form':form, 'players':players, 'player1':player1, 'player2':player2})
+			players = Player.objects.exclude(team='UNK') & Player.objects.filter(position=s_position)
+			player1,s_score1 = nfldb.player_search(db,s_player1)
+			player2,s_score2 = nfldb.player_search(db,s_player2)
+			fullname1 = str(player1.full_name)
+			fullname2 = str(player2.full_name)
+			team1 = str(player1.team)
+			team2 = str(player2.team)
+			q = nfldb.Query(db)
+			games1 = q.game(season_year=seas_year, season_type='Regular', team=team1).as_games()
+			drives1 = q.drive(pos_team=team1).sort(('start_time', 'asc')).as_drives()
+			games2 = q.game(season_year=seas_year, season_type='Regular', team=team2).as_games()
+			drives2 = q.drive(pos_team=team2).sort(('start_time', 'asc')).as_drives()
+
+			for i in range(0,len(games1)):
+				if games1[i].finished:
+					weeks.append(games1[i].week)
+			for w in weeks:
+				passydperweek1[w] = []
+				passydperweek2[w] = []
+			weeks.sort(key=int)
+			#for loop for the first player.
+			for d in drives1:
+				pass_yds = 0
+	 			for w in weeks:
+	 				q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
+	 				q.player(full_name=fullname1)
+	 				q.game(week=w)
+	 				results = q.aggregate(passing_yds__ge=0).as_aggregate()
+	 				if len(results) == 0:
+	 					continue
+	 				tfb = results[0]
+	 				pass_yds += tfb.passing_yds
+	 			for w in weeks:
+	 				if w == d.game.week:
+	 					passydperweek1[w] += [pass_yds]
+			for w in weeks:
+				passydperweek1[w] = sum(passydperweek1[w])
+
+			q2 = nfldb.Query(db)
+			games2 = q2.game(season_year=seas_year, season_type='Regular', team=team2).as_games()
+			drives2 = q2.drive(pos_team=team2).sort(('start_time', 'asc')).as_drives()
+			#for loop for second player.
+			for d in drives2:
+				pass_yds = 0
+				#print d
+	 			for w in weeks:
+	 				q = nfldb.Query(db).drive(gsis_id=d.gsis_id, drive_id=d.drive_id)
+	 				q.player(full_name=fullname2)
+	 				q.game(week=w)
+	 				results = q.aggregate(passing_yds__ge=0).as_aggregate()
+	 				if len(results) == 0:
+	 					continue
+	 				tfb = results[0]
+	 				pass_yds += tfb.passing_yds
+	 			for w in weeks:
+	 				if w == d.game.week:
+	 					passydperweek2[w] += [pass_yds]
+			for w in weeks:
+				passydperweek2[w] = sum(passydperweek2[w])
+
+			data = {
+				'form':form,
+				'player1':player1,
+				'player2':player2,
+				'weeks':weeks,
+				'team1':team1,
+				'team2':team2,
+				'passydperweek1':passydperweek1,
+				'passydperweek2':passydperweek2,
+			}
+			return render(request, "compare_players.html", {'data':data})
+
 	else:
 		form = CompareForm()
 	return render(request, "compare_players.html", {'form':form})

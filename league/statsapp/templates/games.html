@@ -14,16 +14,18 @@
 <div class="large-4 columns">
   <!-- <h2>Players</h2> -->
   <div id="games_list">
+    <div class="medium-centered column" style="text-align:center">
     {% if games_list %}
       {% for games in games_list %}
             <!-- <li>{{games}}</li> -->
           <div class="divider"></div>
-            <li><a href="/games/{{games.pk}}">Game: {{games.fields.away_team}} vs. {{games.fields.home_team}} on {{games.fields.week}}/{{games.fields.season_year}}</a></li>
+            <a style="color:red" href="/games/{{games.pk}}">Game: {{games.fields.away_team}} vs. {{games.fields.home_team}} on Week {{games.fields.week}}/{{games.fields.season_year}}</a>
 
       {% endfor %}
       <div class="divider"></div>
     {% endif %}
     <div class="divider"></div>
+  </div>
 
   </div>
 

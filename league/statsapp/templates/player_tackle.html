@@ -21,7 +21,6 @@
       <p>Tackles per week {{key}}: {{ value }}</p>
   {% endfor %}
 
-
 </div>
 {% endblock %}
 
@@ -30,9 +29,9 @@
 {{ block.super }}
 <script src="https://unpkg.com/react@15/dist/react.js"></script>
 <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 <script>
-var endpoint = '/players/{{data.player_id}}/tackles_player'
+var endpoint = '/players/{{data.player_id}}/tackles_player/'
 var defaultData = []
 var labels = [{% for w in data.weeks %} "Week {{ w }}", {% endfor %}]
 $.ajax({
@@ -47,9 +46,8 @@ $.ajax({
     console.log("error")
     console.log(error_data)
   }
-
 })
-
+Chart.defaults.global.defaultFontColor = '#000'
 var ctx = document.getElementById("chart_ex").getContext('2d');
 var chart_ex = new Chart(ctx, {
   type: 'line',
@@ -59,20 +57,20 @@ var chart_ex = new Chart(ctx, {
       label:'Tackles per Week',
       data:   [{% for key, value in data.tackles_per_week.items %}"{{value}}",{% endfor %}],
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)'
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)'
+            'rgba(139, 0, 0, 1)',
+            'rgba(139, 0, 0, 1)',
+            'rgba(139, 0, 0, 1)',
+            'rgba(139, 0, 0, 1)',
+            'rgba(139, 0, 0, 1)',
+            'rgba(139, 0, 0, 1)'
           ],
           borderWidth: 1
       }]

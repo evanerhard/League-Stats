@@ -7,7 +7,6 @@
 
 
 {% block content %}
-
 <div class="large-8 columns">
   <h1 style="text-align:center">Players</h1>
 </div>
@@ -17,18 +16,11 @@
     {% if players_list %}
       {% for players in players_list %}
         <tr>
-          <th>{{players.fields.full_name}}</th>
-          <td><a href="{{ players.fields.profile_url }}">NFLprofile</a></td>
-        <!-- <label>player_id:</label> -->
-        <th>Statistics</th>
-        <td><a href="/players/{{ players.pk }}"> {{ players.pk }}</a></td>
-          <!-- <div class="divider"></div> -->
-          <div class="divider"></div>
+          <th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{players.fields.full_name}}</th>
+          <td><a href="/players/{{ players.pk }}">Statistics</a></td>
         </tr>
       {% endfor %}
-
     {% endif %}
-    <div class="divider"></div>
     </table>
   </div>
 

@@ -7,7 +7,6 @@
 /* Style the links inside the navigation bar */
 .topnav a {
     float: left;
-    display: inline;
     color: #f2f2f2;
     text-align: center;
     /*width: 60px;*/
@@ -19,7 +18,7 @@
 }
 
 .topnav ul {
-    /*list-style-type: none;*/
+    list-style-type: none;
     margin: 0;
     padding: 0;
     /*overflow: hidden;*/
@@ -28,7 +27,7 @@
 
 /* Change list to vertical */
 .topnav li {
-  display:inline-block;
+  display:block;
   float:inline;
 }
 

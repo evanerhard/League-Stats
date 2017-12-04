@@ -1,0 +1,8 @@
+<style>
+  body {
+    background-image: url('{% static "nfl_logo2.jpg" %}');
+    background-color: #cccccc;
+    background-size: 1600px 900px;
+    background-blend-mode: screen;
+  }
+</style>
