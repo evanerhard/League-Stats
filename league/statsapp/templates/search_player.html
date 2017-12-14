@@ -14,6 +14,7 @@
           {% for p in players %}
             <p><a style="color:red;margin-left:100px" href="/players/{{p.player_id}}"> {{p}} </a> ({{ p.position }})</p>
         {% endfor %}
+
         {% elif player %}
           <p><a href="/players/{{player.player_id}}"> {{player.full_name}}</a>({{ player.position }})</p>
         {% else %}

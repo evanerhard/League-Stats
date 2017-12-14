@@ -15,7 +15,7 @@
 
   <canvas id="chart_ex" width="1200" height="400"></canvas>
   <p>Player Name: {{ data.name }}</p>
-  <p>Team Id: {{data.team }}</p>
+  <p>Team: {{ data.team_name }}</p>
   <p>Position: {{ data.position }}
   {% for key, value in data.catches_per_week.items %}
       <p>Catches per week {{key}}: {{ value }}</p>
@@ -27,8 +27,7 @@
 <!-- SUPER SCRIPTS -->
 {% block scripts %}
 {{ block.super }}
-<script src="https://unpkg.com/react@15/dist/react.js"></script>
-<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 <script>
 var endpoint = '/players/{{data.player_id}}/catches_player/'
@@ -54,7 +53,7 @@ var chart_ex = new Chart(ctx, {
   data:{
     labels: labels,
     datasets: [{
-      label:'Catches per Week',
+      label:'Reception',
       data:   [{% for key, value in data.catches_per_week.items %}"{{value}}",{% endfor %}],
           backgroundColor: [
             'rgba(139, 0, 0, 0.5)',
@@ -78,7 +77,8 @@ var chart_ex = new Chart(ctx, {
   options: {
     responsive:true,
     tooltips:{
-      mode: 'dataset'
+      mode: 'index',
+      axis:'y'
       // insersect: false,
     },
     hover: {
@@ -97,7 +97,7 @@ var chart_ex = new Chart(ctx, {
         display:true,
         scaleLabel: {
           display: true,
-          labelString:'Catches'
+          labelString:'Reception'
         },
         ticks: {
           beginAtZero:true

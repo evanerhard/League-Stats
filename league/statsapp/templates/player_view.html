@@ -42,7 +42,7 @@
     </tr>
     <tr>
           <th>Position:</th>
-          <td>{{ position }} </td>
+          <td>{{ posit }} </td>
     </tr>
     <!-- <tr>
           <th>Profile Id:</th>
@@ -79,7 +79,7 @@
           <td>{{ years_pro }} </td>
     </tr>
 <!-- Offensive Player Graphs -->
-    {% if position == "QB" %}
+    {% if position == 'QB' %}
     <tr>
           <th>Passing Yards Per Game:</th>
           <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
@@ -94,17 +94,25 @@
         <th>Rushing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
     </tr>
+    <tr>
+        <th>Receiving Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/receiving_yds_player/">Graph</a></td>
+    </tr>
     {% endif %}
     {% if position == 'FB' %}
     <tr>
         <th>Rushing Yards Per Game:</th>
         <td><a href="/players/{{ player_id }}/rushing_yds_player/">Graph</a></td>
     </tr>
+    <tr>
+        <th>Receiving Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/receiving_yds_player/">Graph</a></td>
+    </tr>
     {% endif %}
     {% if position == 'TE' %}
     <tr>
-        <th>Passing Yards Per Game:</th>
-        <td><a href="/players/{{ player_id }}/passing_yds_player/">Graph</a></td>
+        <th>Receiving Yards Per Game:</th>
+        <td><a href="/players/{{ player_id }}/receiving_yds_player/">Graph</a></td>
     </tr>
     <!-- Catches per game-->
     <tr>

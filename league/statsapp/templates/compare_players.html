@@ -13,8 +13,8 @@
 {% if data.player1 and data.player2 %}
   {% if data.player1 and data.player2 %}
     <canvas id="canvas" width="1200" height="400"></canvas>
-    <p><a style="color:red" href="/players/{{data.player1.player_id}}"> {{data.player1}} </a></p>
-    <p><a style="color:red" href="/players/{{data.player2.player_id}}"> {{data.player2}} </a></p>
+    <p><a style="color:red" href="/players/{{data.player1.player_id}}"> {{data.player1.full_name }} </a></p>
+    <p><a style="color:red" href="/players/{{data.player2.player_id}}"> {{data.player2.full_name }} </a></p>
   {% endif %}
 
 {% else %}
@@ -77,10 +77,10 @@ var lineChartData = {
        datasets: [{
            label: "{{data.player1.full_name}}",
            backgroundColor:  [
-               'rgba(139, 0, 0, 1)',
+             'rgba(139, 0, 0, 0.5)',
            ],
            borderColor: [
-             'rgba(139, 0, 0, 0.5)',
+             'rgba(139, 0, 0, 1)',
            ],
            fill: false,
            data: [{% for key, value in data.passydperweek1.items %}"{{value}}",{% endfor %}],
@@ -88,10 +88,10 @@ var lineChartData = {
        }, {
            label: "{{data.player2.full_name}}",
            borderColor:  [
-              'rgba(54, 162, 235, 0.5)',
+              'rgba(54, 162, 235, 1)',
            ],
            backgroundColor: [
-             'rgba(54, 162, 235, 1)',
+             'rgba(54, 162, 235, 0.5)',
            ],
            fill: false,
            data: [
@@ -127,12 +127,19 @@ window.onload = function() {
                    display: true,
                    position: "left",
                    id: "y-axis-1",
+                   scaleLabel:{
+                     display:true,
+                     labelString:'Passing Yards'
+                   }
                }, {
                    type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
                    display: true,
                    position: "right",
                    id: "y-axis-2",
-
+                   scaleLabel:{
+                     display:true,
+                     labelString:'Passing Yards'
+                   },
                    // grid line settings
                    gridLines: {
                        drawOnChartArea: false, // only want the grid lines for one axis to show up

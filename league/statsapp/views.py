@@ -13,6 +13,7 @@ from .forms import *
 import json
 import nfldb
 import time
+import sys
 
 O_Positions = ['QB', 'RB', 'FB', 'LT', 'LG', 'C', 'RG', 'RT', 'TE','WR' ]
 D_Positions = ['DE', 'DT', 'OLB', 'ILB', 'CB', 'SS', 'FS']
@@ -65,7 +66,7 @@ def games_list(request):
 	if request.method == "POST":
 		return HttpResponse('POST Successful.')
 	if request.method == "GET":
-		games = serializers.serialize('json',Game.objects.filter(season_year=2017))
+		games = serializers.serialize('json',Game.objects.filter(season_year=2017).order_by('week'))
 		json_games = json.loads(games)
 		# return HttpResponse(games, content_type="application/json")
 		return render(request, 'games.html', {'games_list':json_games})
@@ -136,7 +137,8 @@ def player_view(request, player_id):
 		'full_name':plyr.full_name,
 		'teamcity':team_city,
 		'teamname':team_name,
-		'position':posit,
+		'posit':posit,
+		'position':str(plyr.position),
 		'profile_id':plyr.profile_id,
 		'profile_url':plyr.profile_url,
 		'uniform_number':plyr.uniform_number,
@@ -235,6 +237,7 @@ def catches_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		catchperweek = {}
@@ -273,6 +276,7 @@ def catches_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'catches_per_week':catchperweek,
@@ -290,6 +294,7 @@ def passing_yds_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		passydperweek = {}
@@ -335,6 +340,7 @@ def passing_yds_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'passing_per_week':passydperweek,
@@ -352,6 +358,7 @@ def rushing_yds_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		rushydperweek = {}
@@ -390,6 +397,7 @@ def rushing_yds_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'rushing_per_week':rushydperweek,
@@ -407,6 +415,7 @@ def receiving_yds_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		receivingydperweek = {}
@@ -445,6 +454,7 @@ def receiving_yds_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'receiving_per_week':receivingydperweek,
@@ -462,6 +472,7 @@ def sacks_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		sackperweek = {}
@@ -497,6 +508,7 @@ def sacks_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'sacks_per_week':sackperweek,
@@ -514,6 +526,7 @@ def tackles_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		tackleperweek = {}
@@ -536,7 +549,6 @@ def tackles_player(request, player_id):
 				results = p.defense_tkl
 				tackles += results
 
-
 			for w in weeks:
 				if w == g.week:
 					tackleperweek[w] += [tackles]
@@ -549,6 +561,7 @@ def tackles_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'tackles_per_week':tackleperweek,
@@ -566,6 +579,7 @@ def picks_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		pickperweek = {}
@@ -602,6 +616,7 @@ def picks_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'picks_per_week':pickperweek,
@@ -619,6 +634,7 @@ def passblock_player(request, player_id):
 		player = Player.objects.get(player_id=player_id)
 		name = str(player)
 		team = player.get_team()
+		team_name = player.team.get_team_name()
 		position = player.get_position()
 		weeks = []
 		blkperweek = {}
@@ -655,6 +671,7 @@ def passblock_player(request, player_id):
 			'player_id':player_id,
 			'name':name,
 			'team':team,
+			'team_name':team_name,
 			'position':position,
 			'weeks':weeks,
 			'blocks_per_week':blkperweek,
@@ -678,11 +695,17 @@ def search_player(request):
 				players = Player.objects.filter(team=s_team)
 			elif s_team == 'None' and s_name == '':
 				players = Player.objects.filter(position=s_position)
-
 			elif s_team == 'None':
 				players = Player.objects.filter(position=s_position,full_name__contains=s_name)
+				player, s_score = nfldb.player_search(db, s_name)
 			else:
 				players = Player.objects.filter(team=s_team,position=s_position,full_name__contains=s_name)
+				player, s_score = nfldb.player_search(db, s_name)
+			if len(players) ==1:
+				link_id = player.player_id
+				link_s = '/players/'
+				link = link_s + link_id
+				return HttpResponseRedirect(link)
 
 			return render(request, "search_player.html", {'form':form,'players':players,'player':player})
 
@@ -766,6 +789,7 @@ def compare_players(request):
 	 					passydperweek2[w] += [pass_yds]
 			for w in weeks:
 				passydperweek2[w] = sum(passydperweek2[w])
+
 
 			data = {
 				'form':form,

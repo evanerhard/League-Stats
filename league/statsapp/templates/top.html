@@ -40,10 +40,7 @@
 <!-- SUPER SCRIPTS -->
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
-<script src="https://unpkg.com/react@15/dist/react.js"></script>
-<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 <script>
 var endpoint = '/top/'
 var defaultData = []
@@ -72,20 +69,20 @@ var chart_ex = new Chart(ctx, {
       label:'Passing Yards',
       data: [{% for y in pass_list %} "{{ y.yds }}", {% endfor %}],
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 99, 132, 0.2)'
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)',
+            'rgba(139, 0, 0, 0.5)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)',
-              'rgba(255,99,132,1)'
+            'rgba(139,0,0,1)',
+            'rgba(139,0,0,1)',
+            'rgba(139,0,0,1)',
+            'rgba(139,0,0,1)',
+            'rgba(139,0,0,1)',
+            'rgba(139,0,0,1)'
           ],
           borderWidth: 1
       }]
